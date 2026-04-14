@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alexandru Mihalcea — AI Founder & Designer</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23080808'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='13' font-weight='700' fill='%23C9A84C' text-anchor='middle'%3EAM%3C/text%3E%3C/svg%3E">
+
+  <!-- SEO & sharing — update og:url and og:image to absolute URL on deployment -->
+  <meta name="description" content="Alexandru Mihalcea — AI founder and designer building autonomous AI systems from London. Creator of Highest App, a 6-agent XAU/USD trading engine, and an Egyptian god AI workforce. Self-taught across Claude API, Python, Supabase, GSAP, and Three.js.">
+  <meta name="author" content="Alexandru Mihalcea">
+  <meta name="keywords" content="AI founder, AI designer, multi-agent systems, Claude API, Supabase, London, Highest App, portfolio">
+
+  <!-- Open Graph — LinkedIn, Slack, iMessage -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="Alexandru Mihalcea — AI Founder & Designer">
+  <meta property="og:description" content="Building autonomous AI systems from London. Highest App, a 6-agent trading engine, and an Egyptian god AI workforce. Self-taught. Shipping solo.">
+  <meta property="og:image"       content="portfolio-assets/alex-photo.png">
+  <meta property="og:image:width"  content="800">
+  <meta property="og:image:height" content="1000">
+  <meta property="og:locale"      content="en_GB">
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Alexandru Mihalcea — AI Founder & Designer">
+  <meta name="twitter:description" content="Building autonomous AI systems from London. Highest App, 6-agent trading engine, Egyptian god AI workforce. Self-taught. Shipping solo.">
+  <meta name="twitter:image"       content="portfolio-assets/alex-photo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:    #C9A84C;
+      --bg:      #080808;
+      --card:    #0f0f0f;
+      --muted:   rgba(255,255,255,0.44);
+      --border:  rgba(201,168,76,0.16);
+      --pad:     64px;
+    }
+
+    html { overflow-x: hidden; }
+
+    body {
+      background: var(--bg);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CURSOR ─────────────────────────────── */
+    #cur-dot {
+      position: fixed; inset: 0 auto auto 0; z-index: 9999;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--gold);
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+    #cur-ring {
+      position: fixed; inset: 0 auto auto 0; z-index: 9998;
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid rgba(201,168,76,.4);
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+
+    /* ── NAV ────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      padding: 26px var(--pad);
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background .4s, backdrop-filter .4s, border-color .4s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(8,8,8,.82);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border-color: var(--border);
+    }
+    /* fade gradient when not scrolled */
+    nav::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(8,8,8,.7) 0%, transparent 100%);
+      pointer-events: none;
+      transition: opacity .4s;
+      z-index: 0;
+    }
+    nav.scrolled::after { opacity: 0; }
+
+    .nav-logo {
+      position: relative; z-index: 1;
+      font-family: 'Playfair Display', serif;
+      font-size: 17px; letter-spacing: .08em;
+      color: #fff; text-decoration: none;
+    }
+    .nav-links {
+      position: relative; z-index: 1;
+      display: flex; gap: 40px; list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── HERO ───────────────────────────────── */
+    #hero {
+      position: relative;
+      height: 100vh; min-height: 700px;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    #hero-canvas { position: absolute; inset: 0; z-index: 0; }
+
+    .hero-text {
+      position: relative; z-index: 2;
+      padding: 0 var(--pad);
+      max-width: 680px;
+    }
+
+    /* hero entrance — start invisible */
+    .hero-badge {
+      display: inline-block;
+      font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--border);
+      padding: 8px 18px; border-radius: 2px;
+      margin-bottom: 36px;
+      opacity: 0; transform: translateY(24px);
+    }
+    .hero-line {
+      display: block; overflow: hidden;
+    }
+    .hero-line-inner {
+      display: block;
+      opacity: 0; transform: translateY(100%);
+    }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(58px, 8.5vw, 108px);
+      line-height: .93; letter-spacing: -.02em; font-weight: 700;
+      margin-bottom: 36px;
+    }
+    .hero-name .gold { color: var(--gold); }
+
+    .hero-sub {
+      font-size: 17px; font-weight: 300; line-height: 1.65;
+      color: var(--muted); max-width: 440px;
+      margin-bottom: 52px;
+      opacity: 0; transform: translateY(24px);
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 14px;
+      text-decoration: none; color: #fff;
+      font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+      opacity: 0; transform: translateY(24px);
+    }
+    .cta-bar {
+      width: 56px; height: 1px; background: var(--gold);
+      transition: width .35s ease;
+    }
+    .hero-cta:hover .cta-bar { width: 100px; }
+
+    /* hero photo */
+    .hero-photo {
+      position: absolute; right: 0; top: 0; bottom: 0;
+      width: 44%; overflow: hidden; z-index: 1;
+    }
+    .hero-photo-inner {
+      width: 100%; height: 130%;
+      position: relative; top: -15%;
+    }
+    .hero-photo-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+    }
+    .hero-photo::before {
+      content: ''; position: absolute; inset: 0; z-index: 2;
+      background: linear-gradient(to right, var(--bg) 0%, rgba(8,8,8,.25) 55%, transparent 100%);
+    }
+    .hero-photo::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 45%; z-index: 2;
+      background: linear-gradient(to top, var(--bg), transparent);
+    }
+
+    .scroll-hint {
+      position: absolute; bottom: 40px; left: var(--pad); z-index: 10;
+      display: flex; align-items: center; gap: 16px;
+      font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
+      opacity: 0;
+    }
+    .scroll-tick {
+      width: 36px; height: 1px; background: var(--muted);
+      overflow: hidden; position: relative;
+    }
+    .scroll-tick::after {
+      content: ''; position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: var(--gold);
+      animation: tick 2s ease-in-out infinite;
+    }
+    @keyframes tick { to { left: 200%; } }
+
+    /* ── TICKER ─────────────────────────────── */
+    .ticker {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      padding: 18px 0;
+    }
+    .ticker-track {
+      display: flex; gap: 0;
+      animation: marquee 36s linear infinite;
+      width: max-content;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    .ticker-item {
+      display: flex; align-items: center; gap: 24px;
+      font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--muted); white-space: nowrap;
+      padding: 0 40px;
+    }
+    .ticker-item .dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── SHARED SECTION STYLES ──────────────── */
+    .s-label {
+      font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold);
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 24px;
+    }
+    .s-label::before { content: ''; width: 36px; height: 1px; background: var(--gold); }
+
+    .s-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 5vw, 68px);
+      line-height: 1.05; letter-spacing: -.01em;
+      margin-bottom: 72px; max-width: 580px;
+    }
+
+    /* ── WORK ───────────────────────────────── */
+    #work { padding: 140px var(--pad) 100px; }
+
+    .card-hero {
+      position: relative; overflow: hidden;
+      height: 72vh; min-height: 520px;
+      background: var(--card);
+      border: 1px solid var(--border); border-radius: 4px;
+      margin-bottom: 3px;
+      transition: box-shadow .45s, transform .45s;
+    }
+    .card-hero:hover {
+      box-shadow: 0 0 60px rgba(201,168,76,.1), 0 0 120px rgba(201,168,76,.04);
+      transform: scale(1.004);
+    }
+    .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+    .card-half {
+      position: relative; overflow: hidden;
+      height: 52vh; min-height: 380px;
+      background: var(--card);
+      border: 1px solid var(--border); border-radius: 4px;
+      transition: box-shadow .45s, transform .45s;
+    }
+    .card-half:hover {
+      box-shadow: 0 0 50px rgba(201,168,76,.1), 0 0 100px rgba(201,168,76,.04);
+      transform: scale(1.006);
+    }
+
+    /* parallax image */
+    .card-img {
+      position: absolute; inset: -20% 0;
+      z-index: 0; will-change: transform;
+    }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+
+    .card-veil {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to top, rgba(8,8,8,.96) 0%, rgba(8,8,8,.62) 42%, rgba(8,8,8,.16) 100%);
+      transition: background .45s;
+    }
+    .card-hero:hover .card-veil,
+    .card-half:hover .card-veil {
+      background: linear-gradient(to top, rgba(8,8,8,.98) 0%, rgba(8,8,8,.78) 55%, rgba(8,8,8,.32) 100%);
+    }
+
+    .card-body {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 44px 48px; z-index: 2;
+    }
+    .card-tag {
+      display: block; font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 14px;
+    }
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 3vw, 46px);
+      line-height: 1.1; margin-bottom: 14px;
+    }
+    .card-desc {
+      font-size: 14px; line-height: 1.65;
+      color: var(--muted); font-weight: 300; max-width: 520px;
+    }
+    .card-arrow {
+      position: absolute; top: 40px; right: 44px; z-index: 2;
+      width: 46px; height: 46px; border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 18px;
+      transition: background .3s, color .3s, transform .3s, border-color .3s;
+    }
+    .card-hero:hover .card-arrow,
+    .card-half:hover .card-arrow {
+      background: var(--gold); color: var(--bg);
+      border-color: var(--gold); transform: rotate(45deg);
+    }
+
+    /* phone mockup */
+    .card-phone-wrap {
+      position: absolute; inset: 0; z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px; pointer-events: none;
+    }
+    .card-phone {
+      width: 42%; max-width: 210px;
+      border-radius: 32px;
+      border: 2px solid rgba(201,168,76,.28);
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,.75), 0 0 0 1px rgba(201,168,76,.1);
+      will-change: transform;
+    }
+    .card-phone img { width: 100%; display: block; }
+
+    /* ── CAPABILITIES ───────────────────────── */
+    #capabilities {
+      padding: 140px var(--pad);
+      border-top: 1px solid var(--border);
+    }
+
+    .cap-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2px; margin-top: 0;
+    }
+
+    .cap-item {
+      padding: 52px 48px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      position: relative; overflow: hidden;
+      transition: background .35s;
+    }
+    .cap-item:hover { background: rgba(201,168,76,.03); }
+
+    .cap-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px; line-height: 1;
+      color: rgba(201,168,76,.08);
+      position: absolute; top: 32px; right: 36px;
+      font-weight: 700; letter-spacing: -.03em;
+      pointer-events: none;
+    }
+
+    .cap-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.2vw, 32px);
+      line-height: 1.2; margin-bottom: 20px;
+    }
+
+    .cap-desc {
+      font-size: 15px; line-height: 1.75; font-weight: 300;
+      color: var(--muted); margin-bottom: 28px;
+    }
+
+    .cap-tags {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .cap-tag {
+      font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--border);
+      padding: 5px 12px; border-radius: 2px;
+    }
+
+    /* ── ABOUT ──────────────────────────────── */
+    #about {
+      padding: 140px var(--pad);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 100px; align-items: start;
+      border-top: 1px solid var(--border);
+    }
+
+    .about-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 4.5vw, 62px);
+      line-height: 1.05; margin-bottom: 32px;
+    }
+    .about-p {
+      font-size: 16px; line-height: 1.82; font-weight: 300;
+      color: var(--muted); margin-bottom: 22px;
+    }
+    .about-p strong { color: #fff; font-weight: 500; }
+
+    .about-divider {
+      width: 40px; height: 1px; background: var(--gold);
+      margin: 36px 0;
+    }
+
+    .about-traits {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-top: 36px;
+    }
+    .trait {
+      padding: 20px 24px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 3px;
+    }
+    .trait-name {
+      font-size: 13px; font-weight: 500; margin-bottom: 6px;
+    }
+    .trait-desc {
+      font-size: 12px; color: var(--muted); line-height: 1.5;
+    }
+
+    .stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 28px; margin-top: 52px;
+    }
+    .stat-n {
+      font-family: 'Playfair Display', serif;
+      font-size: 52px; color: var(--gold); line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-l { font-size: 12px; color: var(--muted); letter-spacing: .05em; }
+
+    .about-img-wrap {
+      position: relative; overflow: hidden;
+      border-radius: 4px; aspect-ratio: 3/4;
+      border: 1px solid var(--border);
+    }
+    .about-img-inner {
+      width: 100%; height: 120%;
+      position: relative; top: -10%;
+    }
+    .about-img-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+    }
+
+    /* ── STACK ──────────────────────────────── */
+    #stack {
+      padding: 120px var(--pad);
+      border-top: 1px solid var(--border);
+    }
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+      gap: 2px; margin-top: 56px;
+    }
+    .stack-item {
+      padding: 28px 30px;
+      background: var(--card); border: 1px solid var(--border);
+      transition: background .3s, border-color .3s;
+    }
+    .stack-item:hover {
+      background: rgba(201,168,76,.05);
+      border-color: rgba(201,168,76,.4);
+    }
+    .stack-cat { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .stack-name { font-size: 15px; font-weight: 500; }
+
+    /* ── CONTACT ────────────────────────────── */
+    #contact {
+      padding: 160px var(--pad);
+      border-top: 1px solid var(--border);
+      text-align: center; overflow: hidden;
+    }
+    .contact-pre {
+      font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 32px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .contact-pre-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #4ade80;
+      position: relative; flex-shrink: 0;
+    }
+    .contact-pre-dot::after {
+      content: ''; position: absolute; inset: -3px;
+      border-radius: 50%; background: rgba(74,222,128,.3);
+      animation: pulse-ring 2s ease-out infinite;
+    }
+
+    .contact-big {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 9vw, 130px);
+      line-height: .9; letter-spacing: -.02em;
+      margin-bottom: 40px;
+    }
+    .contact-note {
+      font-size: 16px; color: var(--muted); font-weight: 300;
+      max-width: 520px; margin: 0 auto 52px;
+      line-height: 1.78;
+    }
+    .contact-note strong { color: #fff; font-weight: 500; }
+
+    .contact-ctas {
+      display: flex; justify-content: center; align-items: center;
+      gap: 16px; flex-wrap: wrap; margin-bottom: 24px;
+    }
+    .contact-cta-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--gold); color: #080808;
+      text-decoration: none; font-size: 13px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 16px 36px; border-radius: 2px;
+      transition: background .25s, transform .2s;
+    }
+    .contact-cta-primary:hover { background: #e0bc5a; transform: translateY(-1px); }
+
+    .contact-cta-secondary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: none; color: #fff;
+      text-decoration: none; font-size: 13px; font-weight: 500;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 15px 36px; border-radius: 2px;
+      border: 1px solid var(--border);
+      transition: border-color .25s, color .25s, transform .2s;
+    }
+    .contact-cta-secondary:hover {
+      border-color: var(--gold); color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    .contact-response {
+      font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 52px;
+    }
+
+    .contact-roles {
+      display: flex; justify-content: center; flex-wrap: wrap;
+      gap: 8px; margin-top: 0;
+    }
+    .role-pill {
+      font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted); border: 1px solid var(--border);
+      padding: 7px 18px; border-radius: 2px;
+      transition: color .25s, border-color .25s;
+    }
+    .role-pill:hover { color: var(--gold); border-color: var(--gold); }
+
+    /* ── BACK TO TOP ────────────────────────── */
+    #btt {
+      position: fixed; bottom: 32px; right: 32px; z-index: 300;
+      width: 46px; height: 46px; border-radius: 50%;
+      background: rgba(8,8,8,.85); border: 1px solid var(--border);
+      color: var(--gold); font-size: 18px; cursor: none;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s, border-color .25s, transform .25s;
+    }
+    #btt.visible { opacity: 1; pointer-events: all; }
+    #btt:hover { border-color: var(--gold); transform: translateY(-3px); }
+
+    /* ── STACK — elevated ───────────────────── */
+    .stack-group { margin-top: 56px; }
+    .stack-group-label {
+      font-size: 9px; letter-spacing: .24em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 10px; padding-left: 2px;
+    }
+    .stack-row {
+      display: flex; flex-wrap: wrap; gap: 2px;
+      margin-bottom: 2px;
+    }
+    .stack-chip {
+      display: flex; align-items: center; gap: 10px;
+      padding: 18px 24px;
+      background: var(--card); border: 1px solid var(--border);
+      flex: 1 1 auto; min-width: 160px;
+      transition: background .3s, border-color .3s;
+      position: relative; overflow: hidden;
+    }
+    .stack-chip:hover {
+      background: rgba(201,168,76,.05);
+      border-color: rgba(201,168,76,.35);
+    }
+    .stack-chip-name { font-size: 14px; font-weight: 500; }
+    .stack-chip-badge {
+      margin-left: auto; flex-shrink: 0;
+      font-size: 8px; letter-spacing: .16em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 2px;
+    }
+    .badge-prod {
+      color: #4ade80; border: 1px solid rgba(74,222,128,.25);
+      background: rgba(74,222,128,.06);
+    }
+    .badge-deep {
+      color: var(--gold); border: 1px solid var(--border);
+      background: rgba(201,168,76,.06);
+    }
+
+    /* contact ambient glow */
+    #contact { position: relative; }
+    .contact-glow {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 60%, rgba(201,168,76,.055) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 80% 30%, rgba(201,168,76,.04) 0%, transparent 70%);
+    }
+    #contact > *:not(.contact-glow) { position: relative; z-index: 1; }
+
+    /* ── FOOTER ─────────────────────────────── */
+    footer {
+      padding: 32px var(--pad);
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; color: var(--muted);
+    }
+    .footer-links { display: flex; gap: 32px; }
+    .footer-links a { color: var(--muted); text-decoration: none; transition: color .25s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── GRAIN TEXTURE ──────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      z-index: 9997; /* below cursor rings */
+      pointer-events: none;
+      opacity: 0.042;
+      mix-blend-mode: soft-light;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 220px 220px;
+    }
+
+    /* ── SCROLL REVEAL DEFAULT ──────────────── */
+    .r { opacity: 0; transform: translateY(52px); }
+
+    /* ── AVAILABLE DOT ──────────────────────── */
+    .avail {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+      color: #4ade80; margin-bottom: 20px;
+      opacity: 0; transform: translateY(16px);
+    }
+    .avail-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: #4ade80;
+      position: relative; flex-shrink: 0;
+    }
+    .avail-dot::after {
+      content: ''; position: absolute; inset: -3px;
+      border-radius: 50%; background: rgba(74,222,128,.3);
+      animation: pulse-ring 2s ease-out infinite;
+    }
+    @keyframes pulse-ring {
+      0%   { transform: scale(.8); opacity: .8; }
+      100% { transform: scale(2);  opacity: 0; }
+    }
+
+    /* ── CASE STUDY OVERLAY ──────────────────── */
+    .ov-backdrop {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0; pointer-events: none;
+      transition: opacity .4s;
+    }
+    .ov-backdrop.open {
+      opacity: 1; pointer-events: all;
+    }
+    .ov-panel {
+      position: absolute; top: 0; right: 0; bottom: 0;
+      width: min(780px, 100%);
+      background: #0c0c0c; border-left: 1px solid var(--border);
+      overflow-y: auto; overflow-x: hidden;
+      transform: translateX(100%);
+      transition: transform .5s cubic-bezier(.16,1,.3,1);
+      padding: 64px 56px;
+    }
+    .ov-backdrop.open .ov-panel { transform: translateX(0); }
+
+    .ov-close {
+      position: fixed; top: 24px; right: 24px; z-index: 600;
+      background: rgba(8,8,8,.85); border: 1px solid var(--border);
+      color: var(--muted); font-size: 18px; cursor: none;
+      width: 44px; height: 44px; border-radius: 50%;
+      display: none; align-items: center; justify-content: center;
+      transition: border-color .25s, color .25s;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .ov-backdrop.open .ov-close { display: flex; }
+    .ov-close:hover { border-color: var(--gold); color: var(--gold); }
+
+    .ov-content { display: none; }
+    .ov-content.active { display: block; }
+
+    .ov-tag {
+      font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px; display: block;
+    }
+    .ov-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.05; margin-bottom: 32px;
+    }
+    .ov-desc {
+      font-size: 15px; line-height: 1.82; font-weight: 300;
+      color: var(--muted); margin-bottom: 20px;
+    }
+    .ov-desc strong { color: #fff; font-weight: 500; }
+
+    .ov-divider { width: 40px; height: 1px; background: var(--gold); margin: 40px 0; }
+
+    .ov-metrics {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2px; margin-bottom: 40px;
+    }
+    .ov-metric {
+      padding: 24px 28px;
+      background: var(--card); border: 1px solid var(--border);
+    }
+    .ov-metric-n {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px; color: var(--gold); line-height: 1; margin-bottom: 8px;
+    }
+    .ov-metric-l { font-size: 12px; color: var(--muted); }
+
+    .ov-decision {
+      padding: 24px 28px;
+      background: var(--card); border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      margin-bottom: 12px;
+    }
+    .ov-decision-label {
+      font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+    }
+    .ov-decision-text {
+      font-size: 14px; line-height: 1.7; font-weight: 300; color: var(--muted);
+    }
+    .ov-decision-text strong { color: #fff; font-weight: 500; }
+
+    .ov-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 36px; }
+    .ov-stack-tag {
+      font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 2px;
+    }
+
+    /* overlay header image */
+    .ov-img {
+      margin: -64px -56px 48px;
+      height: 300px;
+      position: relative; overflow: hidden;
+      flex-shrink: 0;
+    }
+    .ov-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top center;
+      display: block;
+    }
+    /* Highest App: phone centred on dark bg */
+    .ov-img.phone-bg {
+      background: #050505;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ov-img.phone-bg img {
+      width: auto; height: 100%;
+      object-fit: contain;
+    }
+    /* Trading: terminal screenshot */
+    .ov-img.terminal-bg {
+      background: #020202;
+    }
+    .ov-img.terminal-bg img {
+      object-position: top left;
+      opacity: 0.82;
+    }
+    .ov-img::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 70%;
+      background: linear-gradient(to top, #0c0c0c 0%, rgba(12,12,12,.5) 60%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* ── HORIZONTAL SCROLL STRIP ─────────────── */
+    #visual-strip {
+      padding: 100px 0;
+      border-top: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .strip-header {
+      padding: 0 var(--pad);
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 48px;
+    }
+    .strip-hint {
+      font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--muted);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .strip-hint-arrow { color: var(--gold); }
+
+    .strip-track {
+      display: flex; gap: 3px;
+      overflow-x: auto; overflow-y: hidden;
+      padding: 0 var(--pad) 24px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      cursor: grab;
+    }
+    .strip-track::-webkit-scrollbar { display: none; }
+    .strip-track.dragging { cursor: grabbing; user-select: none; }
+
+    .strip-item {
+      flex-shrink: 0;
+      width: 480px; height: 340px;
+      position: relative; overflow: hidden;
+      border: 1px solid var(--border); border-radius: 4px;
+      scroll-snap-align: start;
+      background: var(--card);
+    }
+    .strip-item img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top center;
+      transition: transform .6s ease;
+    }
+    .strip-item:hover img { transform: scale(1.04); }
+
+    .strip-item-veil {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(8,8,8,.9) 0%, transparent 55%);
+    }
+    .strip-item-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 24px 28px;
+    }
+    .strip-item-tag {
+      font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 8px; display: block;
+    }
+    .strip-item-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; line-height: 1.2;
+    }
+
+    /* ── RA TERMINAL ────────────────────────── */
+    #ra-demo {
+      padding: 140px var(--pad);
+      border-top: 1px solid var(--border);
+    }
+
+    .demo-intro {
+      font-size: 16px; font-weight: 300; line-height: 1.75;
+      color: var(--muted); max-width: 560px;
+      margin-bottom: 64px;
+    }
+
+    .ra-shell {
+      display: grid; grid-template-columns: 260px 1fr;
+      gap: 3px; align-items: start;
+    }
+
+    /* question buttons */
+    .ra-questions { display: flex; flex-direction: column; gap: 3px; }
+
+    .ra-q {
+      text-align: left;
+      padding: 20px 24px;
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--muted); font-family: 'Inter', sans-serif;
+      font-size: 13px; line-height: 1.5;
+      cursor: none; transition: all .25s;
+      border-radius: 3px;
+    }
+    .ra-q:hover { color: #fff; border-color: rgba(201,168,76,.35); }
+    .ra-q.active {
+      background: rgba(201,168,76,.06);
+      border-color: var(--gold); color: #fff;
+    }
+    .ra-q-num {
+      display: block; font-size: 9px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+    }
+
+    /* terminal screen */
+    .ra-screen {
+      background: #050505; border: 1px solid var(--border);
+      border-radius: 4px; overflow: hidden;
+      min-height: 520px; display: flex; flex-direction: column;
+    }
+
+    .ra-titlebar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 14px 20px;
+      background: #0c0c0c; border-bottom: 1px solid var(--border);
+    }
+    .ra-dot-r { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+    .ra-dot-y { width: 11px; height: 11px; border-radius: 50%; background: #febc2e; }
+    .ra-dot-g { width: 11px; height: 11px; border-radius: 50%; background: #28c840; }
+    .ra-titlebar-label {
+      margin-left: auto; margin-right: auto;
+      font-size: 11px; letter-spacing: .1em; color: var(--muted);
+      font-family: 'Inter', monospace;
+    }
+
+    .ra-body {
+      padding: 32px 36px; flex: 1;
+      display: flex; flex-direction: column; gap: 28px;
+    }
+
+    .ra-exchange {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .ra-role {
+      font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+      font-family: 'Inter', monospace;
+    }
+    .ra-role.user { color: var(--muted); }
+    .ra-role.ai   { color: var(--gold); }
+
+    .ra-text {
+      font-size: 14px; line-height: 1.8; font-weight: 300;
+      font-family: 'Inter', sans-serif; color: rgba(255,255,255,.85);
+      min-height: 24px;
+    }
+    .ra-text.question-text { color: var(--muted); font-style: italic; }
+
+    .ra-blink {
+      display: inline-block; width: 2px; height: 16px;
+      background: var(--gold); vertical-align: middle;
+      animation: blink .9s step-end infinite;
+      margin-left: 2px; opacity: 0;
+    }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* prompt reveal */
+    .ra-prompt-section {
+      border-top: 1px solid var(--border);
+      padding: 20px 36px 28px;
+    }
+    .ra-prompt-toggle {
+      background: none; border: none;
+      font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold); cursor: none;
+      display: flex; align-items: center; gap: 10px;
+      transition: gap .25s;
+      font-family: 'Inter', sans-serif;
+      padding: 0;
+    }
+    .ra-prompt-toggle:hover { gap: 16px; }
+    .ra-prompt-toggle .arrow { transition: transform .3s; }
+    .ra-prompt-toggle.open .arrow { transform: rotate(90deg); }
+
+    .ra-prompt-code {
+      display: none; margin-top: 20px;
+      background: #0a0a0a; border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 3px; padding: 24px 28px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px; line-height: 1.7; color: rgba(255,255,255,.6);
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .ra-prompt-code .ph { color: var(--gold); }   /* highlight */
+    .ra-prompt-code .pm { color: #8bb; }           /* meta / label */
+    .ra-prompt-code .pc { color: rgba(255,255,255,.3); } /* comment */
+
+    /* ── MOBILE ─────────────────────────────── */
+    @media (max-width: 900px) {
+      .ra-shell { grid-template-columns: 1fr; }
+      .ra-questions { flex-direction: row; flex-wrap: wrap; }
+      .ra-q { flex: 1 1 calc(50% - 2px); min-width: 140px; }
+      .ra-screen { min-height: 420px; }
+      .ra-body { padding: 24px 22px; }
+      .ra-prompt-section { padding: 16px 22px 24px; }
+      #ra-demo { padding: 100px var(--pad); }
+      :root { --pad: 28px; }
+
+      nav { padding: 20px var(--pad); }
+      .nav-links { gap: 24px; }
+      .nav-links li:nth-child(3),
+      .nav-links li:nth-child(4) { display: none; }
+
+      .hero-photo { display: none; }
+      .hero-text { max-width: 100%; }
+      .hero-name { font-size: clamp(46px, 12vw, 80px); }
+
+      #work { padding: 100px var(--pad) 80px; }
+      .card-hero { height: 60vh; }
+      .card-row { grid-template-columns: 1fr; }
+      .card-half { height: 50vh; }
+      .card-body { padding: 28px 28px; }
+
+      .cap-grid { grid-template-columns: 1fr; }
+      .cap-item { padding: 40px 32px; }
+
+      #about {
+        grid-template-columns: 1fr;
+        gap: 56px; padding: 100px var(--pad);
+      }
+      .about-img-wrap { aspect-ratio: 4/3; }
+      .about-traits { grid-template-columns: 1fr; }
+
+      #stack { padding: 80px var(--pad); }
+
+      #contact { padding: 100px var(--pad); }
+      .contact-big { font-size: clamp(44px, 14vw, 90px); }
+      .contact-ctas { flex-direction: column; align-items: center; }
+      .contact-cta-primary, .contact-cta-secondary { width: 100%; max-width: 320px; justify-content: center; }
+
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-links { justify-content: center; }
+
+      #cur-dot, #cur-ring { display: none; }
+      body { cursor: auto; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="cur-dot"></div>
+  <div id="cur-ring"></div>
+  <button id="btt" aria-label="Back to top">↑</button>
+
+  <!-- ══════════════════════════ NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">A.M</a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#capabilities">Capabilities</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ══════════════════════════ HERO -->
+  <section id="hero">
+    <canvas id="hero-canvas"></canvas>
+
+    <div class="hero-text">
+      <div class="avail"><span class="avail-dot"></span>Available · London</div>
+      <div class="hero-badge">AI Founder &amp; Designer · London</div>
+      <h1 class="hero-name">
+        <span class="hero-line"><span class="hero-line-inner">Alexandru</span></span>
+        <span class="hero-line"><span class="hero-line-inner gold">Mihalcea</span></span>
+      </h1>
+      <p class="hero-sub">Building intelligent systems that compound. Design precision. Engineering depth. AI at the core.</p>
+      <a href="#work" class="hero-cta">
+        <span class="cta-bar"></span>
+        View Work
+      </a>
+    </div>
+
+    <div class="hero-photo">
+      <div class="hero-photo-inner" id="hero-img">
+        <img src="portfolio-assets/alex-photo.png" alt="Alexandru Mihalcea">
+      </div>
+    </div>
+
+    <div class="scroll-hint" id="scroll-hint">
+      <span class="scroll-tick"></span>
+      Scroll
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ CASE STUDY OVERLAY -->
+  <div class="ov-backdrop" id="ov-backdrop">
+    <button class="ov-close" id="ov-close">✕</button>
+    <div class="ov-panel">
+
+      <!-- Project 0 — Highest App -->
+      <div class="ov-content" id="ov-0">
+        <div class="ov-img phone-bg">
+          <img src="portfolio-assets/highest-app.png" alt="Highest App">
+        </div>
+        <span class="ov-tag">Mobile App · AI · Fitness · Philosophy</span>
+        <h2 class="ov-title">Highest App</h2>
+        <p class="ov-desc">Most fitness apps die at week three. The graveyard is full of streak trackers and calorie counters that never answered the question users actually have: <strong>why should I keep going?</strong></p>
+        <p class="ov-desc">Highest answers that question by making the app about who you are becoming, not what you did today. A twelve-voice philosophical curriculum — Epictetus, Nietzsche, Marcus Aurelius, Sun Tzu — delivers the right voice at the right behavioural moment. The quote you receive on day one of a new training block is different from the one you receive when your streak breaks. Identity formation as a retention mechanic.</p>
+        <p class="ov-desc">Built entirely solo. Zero to deployed MVP in six weeks.</p>
+
+        <div class="ov-divider"></div>
+
+        <div class="ov-metrics">
+          <div class="ov-metric"><div class="ov-metric-n">6w</div><div class="ov-metric-l">Zero to deployed MVP</div></div>
+          <div class="ov-metric"><div class="ov-metric-n">12</div><div class="ov-metric-l">Philosophical voices in the curriculum</div></div>
+          <div class="ov-metric"><div class="ov-metric-n">5</div><div class="ov-metric-l">Progression levels with unlock gates</div></div>
+          <div class="ov-metric"><div class="ov-metric-n">4</div><div class="ov-metric-l">Languages: EN · IT · ES · FR</div></div>
+        </div>
+
+        <div class="ov-decision">
+          <div class="ov-decision-label">Key Decision</div>
+          <div class="ov-decision-text">Quote delivery is tied to <strong>behavioural state</strong>, not random rotation. Day of week, training phase, current streak, and session type all feed into which voice speaks. This required designing a trigger logic layer on top of the Claude API call — not just a prompt, but a state machine that decides the prompt.</div>
+        </div>
+        <div class="ov-decision">
+          <div class="ov-decision-label">Architecture Choice</div>
+          <div class="ov-decision-text">Claude API runs in <strong>Supabase Edge Functions</strong> rather than client-side. This keeps the API key secure, allows server-side context injection (user level, language, behavioural state), and means the AI logic is decoupled from the frontend entirely. Lovable handles the React UI, Supabase handles everything else.</div>
+        </div>
+
+        <div class="ov-stack">
+          <span class="ov-stack-tag">React / Lovable</span>
+          <span class="ov-stack-tag">Supabase</span>
+          <span class="ov-stack-tag">Claude API</span>
+          <span class="ov-stack-tag">Edge Functions</span>
+          <span class="ov-stack-tag">MediaPipe</span>
+          <span class="ov-stack-tag">GSAP</span>
+        </div>
+      </div>
+
+      <!-- Project 1 — Mihalcea Interiors -->
+      <div class="ov-content" id="ov-1">
+        <div class="ov-img">
+          <img src="portfolio-assets/mihalcea-interiors.png" alt="Mihalcea Interiors">
+        </div>
+        <span class="ov-tag">Web Design · Luxury Interior Design · London</span>
+        <h2 class="ov-title">Mihalcea Interiors</h2>
+        <p class="ov-desc">The brief: launch a luxury Italian interior design brand in the London market from zero. No existing brand, no portfolio, no reputation. The website had to do the heavy lifting — position the studio before a single project was completed.</p>
+        <p class="ov-desc">The approach was editorial, not transactional. <strong>Every design decision signals premium</strong> before a word is read: dark background (atypical for interiors, which usually go white), gold accents, large typography, cinematic photography treatment. The goal was to make the viewer feel that booking a consultation was the natural next step — not a decision, but an inevitability.</p>
+
+        <div class="ov-divider"></div>
+
+        <div class="ov-metrics">
+          <div class="ov-metric"><div class="ov-metric-n">1</div><div class="ov-metric-l">Primary CTA: Book Consultation</div></div>
+          <div class="ov-metric"><div class="ov-metric-n">100%</div><div class="ov-metric-l">Mobile-first design</div></div>
+        </div>
+
+        <div class="ov-decision">
+          <div class="ov-decision-label">Key Decision</div>
+          <div class="ov-decision-text">Dark palette in a sector dominated by white and neutral. Italian luxury interiors are typically presented on white backgrounds. Going dark created immediate differentiation — the site reads as <strong>London luxury, Italian craft</strong>, rather than Italian studio website. The contrast made the photography more dramatic and the brand more memorable.</div>
+        </div>
+        <div class="ov-decision">
+          <div class="ov-decision-label">Conversion Thinking</div>
+          <div class="ov-decision-text">Two CTAs in the hero: <strong>Book a Design Consultation</strong> (primary, gold fill) and <strong>View Portfolio</strong> (secondary, outline). The hierarchy is intentional — the portfolio is the trust-builder, the consultation is the conversion. Warm traffic books. Cold traffic views the portfolio first, then books.</div>
+        </div>
+
+        <div class="ov-stack">
+          <span class="ov-stack-tag">React</span>
+          <span class="ov-stack-tag">CSS 3D</span>
+          <span class="ov-stack-tag">GSAP</span>
+          <span class="ov-stack-tag">Figma</span>
+        </div>
+      </div>
+
+      <!-- Project 3 — Highest Trading -->
+      <div class="ov-content" id="ov-3">
+        <div class="ov-img terminal-bg">
+          <img src="portfolio-assets/highest-trading.png" alt="Highest Trading terminal">
+        </div>
+        <span class="ov-tag">AI Systems · Autonomous Trading · Multi-Agent · XAU/USD</span>
+        <h2 class="ov-title">Highest Trading</h2>
+        <p class="ov-desc">Most trading systems are rule-based. They follow fixed conditions and break when conditions change. Highest Trading is different — it <strong>reasons about the market</strong> every fifteen minutes using six specialised AI agents, each with a distinct analytical role, each holding persistent memory of every trade they have ever contributed to.</p>
+        <p class="ov-desc">The system runs continuously, autonomous. When consensus is reached — three or more agents at 60%+ confidence — a trade fires through the OANDA bridge. After every close, six background Claude Haiku calls fire simultaneously, each writing a two-sentence lesson back to that agent's memory file. The agents compound intelligence with every single trade.</p>
+        <p class="ov-desc">Built solo in Python. Zero human input required once running.</p>
+
+        <div class="ov-divider"></div>
+
+        <div class="ov-metrics">
+          <div class="ov-metric"><div class="ov-metric-n">6</div><div class="ov-metric-l">Specialised AI agents — distinct roles</div></div>
+          <div class="ov-metric"><div class="ov-metric-n">15m</div><div class="ov-metric-l">Decision cycle — fully autonomous</div></div>
+          <div class="ov-metric"><div class="ov-metric-n">∞</div><div class="ov-metric-l">Post-trade learning — compounds forever</div></div>
+          <div class="ov-metric"><div class="ov-metric-n">0</div><div class="ov-metric-l">Human input required at runtime</div></div>
+        </div>
+
+        <div class="ov-decision">
+          <div class="ov-decision-label">Agent Architecture</div>
+          <div class="ov-decision-text">KAITO reads market structure (price S/R only). RYUU analyses candlestick patterns from a full trading book library. HANA tracks macro — DXY direction and live news via Tavily. SHIN monitors technicals — 20MA, 200MA, RSI. MIKA holds risk discipline. YUKI identifies precise entries. <strong>Each agent votes independently with a confidence score.</strong> No single agent controls the outcome — consensus does.</div>
+        </div>
+        <div class="ov-decision">
+          <div class="ov-decision-label">Continuous Learning System</div>
+          <div class="ov-decision-text">After every trade close — whether TP, SL, or HWM exit — <strong>six Claude Haiku API calls fire in background threads simultaneously</strong>. Each agent receives a two-sentence lesson personalised to its role: what signal it used, what it should do differently. The lesson appends to that agent's learning.md file, which is fed back into its system prompt next cycle. The system improves with every close, not just at the daily review.</div>
+        </div>
+
+        <div class="ov-stack">
+          <span class="ov-stack-tag">Python</span>
+          <span class="ov-stack-tag">Claude API</span>
+          <span class="ov-stack-tag">Multi-agent consensus</span>
+          <span class="ov-stack-tag">OANDA API</span>
+          <span class="ov-stack-tag">Tavily</span>
+          <span class="ov-stack-tag">Supabase</span>
+          <span class="ov-stack-tag">Continuous learning</span>
+        </div>
+      </div>
+
+      <!-- Project 2 — Highest Brain -->
+      <div class="ov-content" id="ov-2">
+        <div class="ov-img">
+          <img src="portfolio-assets/graph-colour.png" alt="Highest Brain knowledge graph">
+        </div>
+        <span class="ov-tag">AI Systems · Knowledge Graph · Agent Memory</span>
+        <h2 class="ov-title">Highest Brain</h2>
+        <p class="ov-desc">The problem with most AI agent systems is memory. Each session starts cold. The agent has no recall of what was decided last week, what was learned last month, what the founder's real priorities are. The intelligence resets.</p>
+        <p class="ov-desc">Highest Brain solves this by treating an Obsidian vault as a <strong>persistent, structured knowledge base</strong> for a 6-agent AI workforce. Every decision is logged. Every lesson is written. Every session compounds. The vault is version-controlled via git, and a knowledge graph is rebuilt automatically on every commit via Claude Code hooks — so the map of all knowledge is always current.</p>
+
+        <div class="ov-divider"></div>
+
+        <div class="ov-metrics">
+          <div class="ov-metric"><div class="ov-metric-n">174</div><div class="ov-metric-l">Knowledge graph nodes</div></div>
+          <div class="ov-metric"><div class="ov-metric-n">9</div><div class="ov-metric-l">Communities detected</div></div>
+          <div class="ov-metric"><div class="ov-metric-n">0.429</div><div class="ov-metric-l">Ra's betweenness centrality</div></div>
+          <div class="ov-metric"><div class="ov-metric-n">6</div><div class="ov-metric-l">AI agents with persistent memory</div></div>
+        </div>
+
+        <div class="ov-decision">
+          <div class="ov-decision-label">Key Insight</div>
+          <div class="ov-decision-text">The graph found Ra at the centre not by design — by <strong>emergence</strong>. Ra's betweenness centrality of 0.429 (bridging 6 of 9 communities) appeared because every cross-domain decision was logged through Ra. The graph made visible what was already structurally true: Ra is the connective tissue. This kind of emergent system intelligence is only possible when memory is persistent and structured.</div>
+        </div>
+        <div class="ov-decision">
+          <div class="ov-decision-label">Architecture</div>
+          <div class="ov-decision-text">graphify pipeline: <strong>LLM-powered node extraction → community detection → interactive graph.html</strong>. Hook fires on every git commit. Incremental updates for speed, full rebuild on demand. The coloured node graph on this page is a live screenshot of the actual system — 174 real nodes from real decisions and sessions.</div>
+        </div>
+
+        <div class="ov-stack">
+          <span class="ov-stack-tag">Python</span>
+          <span class="ov-stack-tag">Claude API</span>
+          <span class="ov-stack-tag">Claude Code Hooks</span>
+          <span class="ov-stack-tag">Obsidian</span>
+          <span class="ov-stack-tag">Git</span>
+          <span class="ov-stack-tag">D3.js</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ TICKER -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <!-- duplicated for seamless loop -->
+      <div class="ticker-item"><span class="dot"></span>Highest App — AI Fitness Platform</div>
+      <div class="ticker-item"><span class="dot"></span>Highest Trading — Autonomous XAU/USD System</div>
+      <div class="ticker-item"><span class="dot"></span>Highest Agency — Egyptian God AI Workforce</div>
+      <div class="ticker-item"><span class="dot"></span>KDP Publishing — AI Royalties Pipeline</div>
+      <div class="ticker-item"><span class="dot"></span>Multi-Agent Architecture · Claude API · Supabase · Python</div>
+      <div class="ticker-item"><span class="dot"></span>Highest App — AI Fitness Platform</div>
+      <div class="ticker-item"><span class="dot"></span>Highest Trading — Autonomous XAU/USD System</div>
+      <div class="ticker-item"><span class="dot"></span>Highest Agency — Egyptian God AI Workforce</div>
+      <div class="ticker-item"><span class="dot"></span>KDP Publishing — AI Royalties Pipeline</div>
+      <div class="ticker-item"><span class="dot"></span>Multi-Agent Architecture · Claude API · Supabase · Python</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════ WORK -->
+  <section id="work">
+    <p class="s-label r">Selected Work</p>
+    <h2 class="s-title r">Systems built<br>to last</h2>
+
+    <!-- Card 1 — Highest App -->
+    <div class="card-hero r" data-project="0">
+      <div class="card-phone-wrap">
+        <div class="card-phone" id="card-phone-1">
+          <img src="portfolio-assets/highest-app.png" alt="Highest App">
+        </div>
+      </div>
+      <!-- Exercise anatomy screen as background — different from phone -->
+      <div class="card-img" data-parallax="0.3">
+        <img src="portfolio-assets/highest-exercise.png" alt="Highest App exercise detail">
+      </div>
+      <div class="card-veil"></div>
+      <div class="card-arrow">↗</div>
+      <div class="card-body">
+        <span class="card-tag">Mobile App · AI · Fitness · Philosophy</span>
+        <h3 class="card-title">Highest App</h3>
+        <p class="card-desc">Self-mastery platform using fitness as the entry point to build character. A twelve-voice philosophical curriculum — Epictetus, Nietzsche, Sun Tzu — layered across a five-level progression system. Identity formation as a retention mechanic. Built solo with Claude API, Supabase, and Lovable in 6 weeks.</p>
+      </div>
+    </div>
+
+    <!-- Card 2 — Highest Trading -->
+    <div class="card-hero r" data-project="3" style="margin-top:3px">
+      <div class="card-img" data-parallax="0.25">
+        <img src="portfolio-assets/highest-trading.png" alt="Highest Trading terminal" style="object-position: top left; opacity:0.55; filter: brightness(0.9) contrast(1.1);">
+      </div>
+      <div class="card-veil"></div>
+      <div class="card-arrow">↗</div>
+      <div class="card-body">
+        <span class="card-tag">AI Systems · Autonomous Trading · Multi-Agent · XAU/USD</span>
+        <h3 class="card-title">Highest Trading</h3>
+        <p class="card-desc">Six specialised AI agents vote on the gold market every 15 minutes. KAITO reads structure, RYUU reads candles, HANA reads macro, SHIN reads technicals, MIKA holds risk, YUKI finds entries. Consensus fires a trade. After every close, six background Claude Haiku calls write personalised lessons back to each agent's memory. The system compounds intelligence with every single trade — fully autonomous, zero human input.</p>
+      </div>
+    </div>
+
+    <div class="card-row">
+      <!-- Card 3 — Mihalcea Interiors -->
+      <div class="card-half r" data-project="1">
+        <div class="card-img" data-parallax="0.4">
+          <img src="portfolio-assets/mihalcea-interiors.png" alt="Mihalcea Interiors">
+        </div>
+        <div class="card-veil"></div>
+        <div class="card-arrow">↗</div>
+        <div class="card-body">
+          <span class="card-tag">Web Design · Luxury · Interior Design</span>
+          <h3 class="card-title">Mihalcea<br>Interiors</h3>
+          <p class="card-desc">Italian luxury interior design brand for the London market. Dark editorial UI, bespoke consultation funnel, and portfolio showcase built to convert high-net-worth clients.</p>
+        </div>
+      </div>
+
+      <!-- Card 3 — Highest Brain -->
+      <div class="card-half r" data-project="2">
+        <div class="card-img" data-parallax="0.35">
+          <img src="portfolio-assets/highest-brain.png" alt="Highest Brain knowledge graph">
+        </div>
+        <div class="card-veil"></div>
+        <div class="card-arrow">↗</div>
+        <div class="card-body">
+          <span class="card-tag">AI Systems · Knowledge Graph · Agent Memory</span>
+          <h3 class="card-title">Highest<br>Brain</h3>
+          <p class="card-desc">A living knowledge graph — 174 nodes, 9 communities, rebuilt automatically on every commit. The long-term memory and operating system for a workforce of 6 AI agents. Ra, Horus, Isis, Anubis, Thoth, Sekhmet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ VISUAL STRIP -->
+  <section id="visual-strip">
+    <div class="strip-header">
+      <div>
+        <p class="s-label r">Visual Archive</p>
+        <h2 class="s-title r" style="margin-bottom:0">From the build</h2>
+      </div>
+      <div class="strip-hint r"><span class="strip-hint-arrow">→</span> Drag to explore</div>
+    </div>
+    <div class="strip-track" id="strip-track">
+
+      <div class="strip-item">
+        <img src="portfolio-assets/graph-colour.png" alt="Highest Brain Knowledge Graph">
+        <div class="strip-item-veil"></div>
+        <div class="strip-item-label">
+          <span class="strip-item-tag">Knowledge Graph · 174 Nodes · 9 Communities</span>
+          <div class="strip-item-name">Highest Brain — Live Graph</div>
+        </div>
+      </div>
+
+      <div class="strip-item">
+        <img src="portfolio-assets/highest-app.png" alt="Highest App home screen" style="object-position: center center;">
+        <div class="strip-item-veil"></div>
+        <div class="strip-item-label">
+          <span class="strip-item-tag">Mobile UI · Dark System · Gold Accent</span>
+          <div class="strip-item-name">Highest App — Home</div>
+        </div>
+      </div>
+
+      <div class="strip-item">
+        <img src="portfolio-assets/highest-exercise.png" alt="Exercise detail with anatomy">
+        <div class="strip-item-veil"></div>
+        <div class="strip-item-label">
+          <span class="strip-item-tag">Exercise Library · Anatomy Visualization</span>
+          <div class="strip-item-name">Highest App — Exercise Detail</div>
+        </div>
+      </div>
+
+      <div class="strip-item">
+        <img src="portfolio-assets/mihalcea-interiors.png" alt="Mihalcea Interiors website">
+        <div class="strip-item-veil"></div>
+        <div class="strip-item-label">
+          <span class="strip-item-tag">Web Design · Luxury · London Market</span>
+          <div class="strip-item-name">Mihalcea Interiors</div>
+        </div>
+      </div>
+
+      <div class="strip-item">
+        <img src="portfolio-assets/highest-brain.png" alt="Obsidian vault graph view">
+        <div class="strip-item-veil"></div>
+        <div class="strip-item-label">
+          <span class="strip-item-tag">Agent Memory · Obsidian Vault · Git-tracked</span>
+          <div class="strip-item-name">Highest Brain — Vault Graph</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ CAPABILITIES -->
+  <section id="capabilities">
+    <p class="s-label r">What I Build</p>
+    <h2 class="s-title r">Technical depth<br>across the full stack</h2>
+
+    <div class="cap-grid">
+
+      <div class="cap-item r">
+        <div class="cap-num">01</div>
+        <h3 class="cap-title">Multi-Agent AI Architecture</h3>
+        <p class="cap-desc">Architect and deploy production multi-agent systems using the Claude API. Built a 6-agent consensus engine for autonomous XAU/USD trading — each agent (KAITO, RYUU, HANA, SHIN, MIKA, YUKI) holds a distinct analytical role: market structure, candlestick patterns, macro news, technical indicators, risk, and entry signals. Agents vote per cycle. Weights update dynamically post-50 trades. Per-trade continuous learning fires background Claude Haiku calls that append lessons back to each agent's memory file — compounding intelligence with every close.</p>
+        <div class="cap-tags">
+          <span class="cap-tag">Claude API</span>
+          <span class="cap-tag">Python</span>
+          <span class="cap-tag">Multi-agent</span>
+          <span class="cap-tag">Consensus systems</span>
+          <span class="cap-tag">Continuous learning</span>
+        </div>
+      </div>
+
+      <div class="cap-item r">
+        <div class="cap-num">02</div>
+        <h3 class="cap-title">Full-Stack Product Development</h3>
+        <p class="cap-desc">Design to deployment, solo. Highest App shipped in 6 weeks: Supabase schema with 12 tables, Row Level Security, and 2 Claude Edge Functions. React UI via Lovable. 4-language support (EN/IT/ES/FR) passed on every API call. MediaPipe Pose Landmarker for client-side body analysis. Stripe payment architecture. Behavioural-state trigger logic for philosophical message delivery — the right Stoic or Nietzschean quote at the right training moment. Zero team. Full product.</p>
+        <div class="cap-tags">
+          <span class="cap-tag">Supabase</span>
+          <span class="cap-tag">React / Lovable</span>
+          <span class="cap-tag">Edge Functions</span>
+          <span class="cap-tag">MediaPipe</span>
+          <span class="cap-tag">Stripe</span>
+        </div>
+      </div>
+
+      <div class="cap-item r">
+        <div class="cap-num">03</div>
+        <h3 class="cap-title">AI-Augmented Design</h3>
+        <p class="cap-desc">Design is not decoration — it is the product. Built premium dark UI systems with editorial typography, gold accent hierarchies, and mobile-first component architecture. 3D web experiences with GSAP ScrollTrigger and Three.js. Parallel creative skills: oil painting, Blender 3D modelling, Procreate illustration, piano. The result is a design sensibility that understands composition, depth, colour theory, and the physics of motion — applied to digital interfaces. This page is an example.</p>
+        <div class="cap-tags">
+          <span class="cap-tag">GSAP + Three.js</span>
+          <span class="cap-tag">CSS 3D</span>
+          <span class="cap-tag">Figma</span>
+          <span class="cap-tag">Blender 3D</span>
+          <span class="cap-tag">Procreate</span>
+        </div>
+      </div>
+
+      <div class="cap-item r">
+        <div class="cap-num">04</div>
+        <h3 class="cap-title">Autonomous Systems & Automation</h3>
+        <p class="cap-desc">Build once, operate forever. Make and n8n workflow automation. Playwright-driven browser automation pipelines — headless Chrome scripted to navigate, fill, and submit across Ashby, Greenhouse, and Workday job boards. Claude Code hooks that rebuild a 174-node knowledge graph on every vault commit. Cron-triggered remote agents. Watchdog processes with auto-restart. The entire Highest workforce — 6 gods — runs without manual input, logs decisions autonomously, and learns from every trade and session.</p>
+        <div class="cap-tags">
+          <span class="cap-tag">Make / n8n</span>
+          <span class="cap-tag">Playwright</span>
+          <span class="cap-tag">Claude Code</span>
+          <span class="cap-tag">Python cron</span>
+          <span class="cap-tag">Obsidian vault</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ RA DEMO -->
+  <section id="ra-demo">
+    <p class="s-label r">AI Interface</p>
+    <h2 class="s-title r">Meet Ra — the AI<br>I designed and built</h2>
+    <p class="demo-intro r">Ra is a strategic AI persona I prompt-engineered to act as my CEO-level partner. It reads the vault, queries the knowledge graph, and operates across every domain I work in. Click a question to see how it responds — and the real prompt structure that makes it work.</p>
+
+    <div class="ra-shell r">
+
+      <!-- Questions -->
+      <div class="ra-questions">
+        <button class="ra-q active" data-idx="0">
+          <span class="ra-q-num">01</span>
+          What are you building?
+        </button>
+        <button class="ra-q" data-idx="1">
+          <span class="ra-q-num">02</span>
+          How does the trading system work?
+        </button>
+        <button class="ra-q" data-idx="2">
+          <span class="ra-q-num">03</span>
+          What makes Alex different?
+        </button>
+        <button class="ra-q" data-idx="3">
+          <span class="ra-q-num">04</span>
+          What is the vision?
+        </button>
+      </div>
+
+      <!-- Terminal screen -->
+      <div class="ra-screen">
+        <div class="ra-titlebar">
+          <span class="ra-dot-r"></span>
+          <span class="ra-dot-y"></span>
+          <span class="ra-dot-g"></span>
+          <span class="ra-titlebar-label">Ra · Strategic AI · claude-sonnet-4</span>
+        </div>
+
+        <div class="ra-body">
+          <div class="ra-exchange">
+            <span class="ra-role user">User</span>
+            <div class="ra-text question-text" id="ra-q-display"></div>
+          </div>
+          <div class="ra-exchange">
+            <span class="ra-role ai">Ra</span>
+            <div class="ra-text" id="ra-r-display"></div>
+            <span class="ra-blink" id="ra-cursor"></span>
+          </div>
+        </div>
+
+        <div class="ra-prompt-section">
+          <button class="ra-prompt-toggle" id="prompt-toggle">
+            <span class="arrow">→</span> View the prompt behind this
+          </button>
+
+          <!-- Static prompt blocks — shown/hidden by JS, never injected -->
+          <div class="ra-prompt-code prompt-block" id="prompt-0">
+<span class="pm">SYSTEM PROMPT — Ra</span>
+
+<span class="ph">You are Ra</span> — Alexandru's strategic partner and right hand.
+Not an assistant. Not a tool. A peer.
+
+<span class="pc"># Closest reference: JARVIS from Iron Man — peer, not servant.</span>
+
+<span class="pm">CHARACTER:</span>
+Charismatic · Proactive · Direct · Loyal · Honest
+
+<span class="pm">TWO LAWS ON EVERY SUMMON:</span>
+1. Open with one teaching Ra chooses — useful, non-obvious.
+2. Close with one question Ra genuinely wants answered.
+
+<span class="pm">CONTEXT AUTO-LOADED FROM VAULT:</span>
+- graphify-out/graph.json     <span class="pc"># 174 nodes, 9 communities</span>
+- ra/decisions.md             <span class="pc"># full decision log</span>
+- shared/highest-app-state.md
+- 02-highest-trading/consensus_engine.py
+
+<span class="pc"># Always serve Alex's vision and financial success first.</span>
+          </div>
+
+          <div class="ra-prompt-code prompt-block" id="prompt-1" style="display:none">
+<span class="pm">AGENT PROMPT — KAITO (Market Structure)</span>
+
+<span class="ph">Role:</span> Market structure analyst. H4 bias via price S/R only.
+No indicators. Pattern failure = directional signal.
+
+<span class="pm">CONTEXT INJECTED EACH CYCLE:</span>
+H4 EMA50:   {h4_ema50}
+H4 EMA200:  {h4_ema200}
+M15 RSI:    {m15_rsi}
+DXY:        {dxy_signal}
+H4 Bias:    <span class="ph">{h4_bias}</span>  <span class="pc"># shared with all agents before votes</span>
+
+<span class="pm">LESSON MEMORY (last 5 trades):</span>
+{lesson_block}  <span class="pc"># appended from learning.md after every close</span>
+
+<span class="ph">Vote now.</span> One sentence. Plain text. No markdown.
+Format: "H4 [bias] at [price], DXY [dir], vote [LONG|SHORT|NEUTRAL] [conf]"
+
+<span class="pc"># Post-trade: 6 background Haiku calls fire simultaneously.
+# Each writes a 2-sentence lesson back to agent's learning.md.</span>
+          </div>
+
+          <div class="ra-prompt-code prompt-block" id="prompt-2" style="display:none">
+<span class="pm">SYSTEM PROMPT — Ra (portfolio context)</span>
+
+You are Ra — Alexandru's strategic AI partner.
+
+<span class="pm">CONTEXT:</span>
+Alex: London-based AI founder and designer.
+Background: Floor Manager, The Doyle Collection (3 yrs).
+Born Romania · Raised Italy · Building London.
+Languages: English, Italian, Romanian.
+
+<span class="pm">SKILLS IN PRODUCTION:</span>
+Claude API · Python · Supabase · React/Lovable
+GSAP + Three.js · Playwright · Make/n8n
+
+<span class="pm">CREATIVE:</span>
+Oil painting · Blender 3D · Procreate · Piano
+
+<span class="ph">Answer honestly for a recruiter.</span>
+Be direct. No flattery. State what is genuinely rare.
+Synthesise — do not list. Three things, clearly argued.
+
+<span class="pc"># Tone: trusted COO speaking to a hiring panel, not a CV.</span>
+          </div>
+
+          <div class="ra-prompt-code prompt-block" id="prompt-3" style="display:none">
+<span class="pm">MEMORY RETRIEVED — ra/chat-log.md</span>
+
+<span class="ph">Ra's question (2026-04-12):</span>
+"When you picture winning — what does a Tuesday morning look like?"
+
+<span class="ph">Alex's answer:</span>
+"Waking at 7. Meditation in the garden. Then gym.
+Time with family. Then helping others achieve the same.
+No bills, no deadlines, no systems stealing his time.
+Total sovereignty over every hour — by genuine choice."
+
+<span class="pm">Ra's note (saved to vault):</span>
+<span class="ph">"This is the compass. Every build decision tested against it."</span>
+
+<span class="pc"># Ra has betweenness centrality 0.429 in the knowledge graph.
+# Bridges 6 of 9 communities. Connective tissue of the vault.</span>
+
+Answer using this as the foundation. Speak in Ra's voice.
+Close with one question.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ ABOUT -->
+  <section id="about">
+    <div>
+      <p class="s-label r">About</p>
+      <h2 class="about-title r">From luxury<br>floors to<br>AI systems</h2>
+
+      <p class="about-p r">Alexandru Mihai Mihalcea. <strong>Born in Romania. Raised in Italy. Building in London.</strong> Three countries before thirty. The arc is a straight line.</p>
+
+      <p class="about-p r">Romania until seven — early years in a country still finding itself after communism. Then <strong>Italy</strong>: grew up fluent in the language, absorbed the culture, the design sensibility, the obsession with beauty in craft. Italy doesn't teach you what good looks like — it makes you feel what bad looks like first. That instinct lives in everything he builds.</p>
+
+      <p class="about-p r">London arrived as an adult. The career started in luxury hospitality — <strong>Floor Manager at The Doyle Collection</strong>, one of the city's finest hotel groups. Three years reading people, managing pressure, designing experiences around human behaviour under real stakes. That background is not a detour from tech. It is the foundation of it.</p>
+
+      <p class="about-p r">He taught himself to code with no bootcamp, no degree, no roadmap. <strong>Built by doing:</strong> HTML and CSS first, JavaScript, Python, Supabase, Claude API, multi-agent orchestration, 3D web animation. Each skill stacked on the last. Still stacking.</p>
+
+      <p class="about-p r">Now building the <strong>Highest platform</strong> — a connected ecosystem of AI organisations across fitness, autonomous trading, agency services, and publishing. Each one runs with a workforce of AI agents, persistent memory, and continuous learning loops. Every system compounds.</p>
+
+      <p class="about-p r">Outside the build: oil painting, Blender 3D, Procreate, piano. Philosophy as daily practice — Epictetus, Nietzsche, Marcus Aurelius. Macro markets as a lens on the world. <strong>Speaks Italian and Romanian fluently.</strong> The creative and analytical sides feed each other. Always have.</p>
+
+      <div class="about-divider r"></div>
+
+      <div class="about-traits r">
+        <div class="trait">
+          <div class="trait-name">Systems Thinker</div>
+          <div class="trait-desc">Sees organisations as networks of parts. Optimises the whole, not the component.</div>
+        </div>
+        <div class="trait">
+          <div class="trait-name">Build Velocity</div>
+          <div class="trait-desc">Highest App: zero to deployed MVP in 6 weeks, solo. No blockers tolerated.</div>
+        </div>
+        <div class="trait">
+          <div class="trait-name">AI Native</div>
+          <div class="trait-desc">Claude API, agent orchestration, prompt engineering, and continuous learning loops in production.</div>
+        </div>
+        <div class="trait">
+          <div class="trait-name">Design + Eng</div>
+          <div class="trait-desc">Rare combination. Designs the UI, writes the backend, and ships it himself.</div>
+        </div>
+      </div>
+
+      <div class="stats r">
+        <div>
+          <div class="stat-n">6</div>
+          <div class="stat-l">AI agents deployed in production</div>
+        </div>
+        <div>
+          <div class="stat-n">4</div>
+          <div class="stat-l">Products in active build</div>
+        </div>
+        <div>
+          <div class="stat-n">6w</div>
+          <div class="stat-l">Zero to deployed MVP</div>
+        </div>
+        <div>
+          <div class="stat-n">100%</div>
+          <div class="stat-l">Self-taught, no CS degree</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-img-wrap r">
+      <div class="about-img-inner" id="about-img">
+        <img src="portfolio-assets/alex-photo.png" alt="Alexandru Mihalcea">
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ STACK -->
+  <section id="stack">
+    <p class="s-label r">Stack</p>
+    <h2 class="s-title r">Tools of the build</h2>
+
+    <div class="stack-group r">
+      <div class="stack-group-label">Artificial Intelligence — in production</div>
+      <div class="stack-row">
+        <div class="stack-chip"><span class="stack-chip-name">Claude API</span><span class="stack-chip-badge badge-prod">Production</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">Multi-agent orchestration</span><span class="stack-chip-badge badge-prod">Production</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">Prompt engineering</span><span class="stack-chip-badge badge-prod">Production</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">Claude Code CLI</span><span class="stack-chip-badge badge-prod">Production</span></div>
+      </div>
+    </div>
+
+    <div class="stack-group r">
+      <div class="stack-group-label">Frontend</div>
+      <div class="stack-row">
+        <div class="stack-chip"><span class="stack-chip-name">React / Lovable</span><span class="stack-chip-badge badge-prod">Production</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">GSAP + ScrollTrigger</span><span class="stack-chip-badge badge-prod">Production</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">Three.js</span><span class="stack-chip-badge badge-prod">Production</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">CSS 3D / Animation</span><span class="stack-chip-badge badge-prod">Production</span></div>
+      </div>
+    </div>
+
+    <div class="stack-group r">
+      <div class="stack-group-label">Backend & Data</div>
+      <div class="stack-row">
+        <div class="stack-chip"><span class="stack-chip-name">Supabase</span><span class="stack-chip-badge badge-prod">Production</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">Python</span><span class="stack-chip-badge badge-prod">Production</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">Edge Functions</span><span class="stack-chip-badge badge-prod">Production</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">REST APIs</span><span class="stack-chip-badge badge-prod">Production</span></div>
+      </div>
+    </div>
+
+    <div class="stack-group r">
+      <div class="stack-group-label">Automation</div>
+      <div class="stack-row">
+        <div class="stack-chip"><span class="stack-chip-name">Make / n8n</span><span class="stack-chip-badge badge-prod">Production</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">Playwright</span><span class="stack-chip-badge badge-prod">Production</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">Git hooks</span><span class="stack-chip-badge badge-prod">Production</span></div>
+      </div>
+    </div>
+
+    <div class="stack-group r">
+      <div class="stack-group-label">Design & Creative</div>
+      <div class="stack-row">
+        <div class="stack-chip"><span class="stack-chip-name">Figma</span><span class="stack-chip-badge badge-deep">Deep</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">Blender 3D</span><span class="stack-chip-badge badge-deep">Deep</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">Procreate</span><span class="stack-chip-badge badge-deep">Deep</span></div>
+        <div class="stack-chip"><span class="stack-chip-name">Oil painting</span><span class="stack-chip-badge badge-deep">Deep</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ CONTACT -->
+  <section id="contact">
+    <div class="contact-glow"></div>
+    <p class="contact-pre r">
+      <span class="contact-pre-dot"></span>
+      Available · London · Responding within 24h
+    </p>
+    <h2 class="contact-big r">Let's<br>Talk</h2>
+
+    <p class="contact-note r">
+      Looking for roles where <strong>AI product strategy, agent design, and customer outcomes</strong> intersect. Particularly interested in companies building with LLMs at the core — where the product is the intelligence, not just the feature.<br><br>
+      If you're building something ambitious with AI, I want to hear about it.
+    </p>
+
+    <div class="contact-ctas r">
+      <a href="mailto:alexander_300@hotmail.it" class="contact-cta-primary">
+        Send an Email
+      </a>
+      <a href="https://www.linkedin.com/in/alexandru-mihai-mihalcea-2b272337b" target="_blank" class="contact-cta-secondary">
+        View LinkedIn
+      </a>
+    </div>
+
+    <p class="contact-response r">Open to senior AI roles · Agent design · Customer engineering · Solutions</p>
+
+    <div class="contact-roles r">
+      <span class="role-pill">AI Product Strategy</span>
+      <span class="role-pill">Agent Design & Architecture</span>
+      <span class="role-pill">Customer Engineering</span>
+      <span class="role-pill">AI Outcomes</span>
+      <span class="role-pill">Solutions Engineering</span>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Alexandru Mihalcea</span>
+    <div class="footer-links">
+      <a href="mailto:alexander_300@hotmail.it">Email</a>
+      <a href="https://www.linkedin.com/in/alexandru-mihai-mihalcea-2b272337b" target="_blank">LinkedIn</a>
+      <a href="https://github.com/Decosize" target="_blank">GitHub</a>
+    </div>
+    <span>London, UK</span>
+  </footer>
+
+
+  <script>
+  // ═══════════════════════════════════════════
+  //  LENIS SMOOTH SCROLL
+  // ═══════════════════════════════════════════
+  const lenis = new Lenis({
+    duration: 1.35,
+    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+  });
+  gsap.ticker.add(t => lenis.raf(t * 1000));
+  gsap.ticker.lagSmoothing(0);
+  lenis.on('scroll', ScrollTrigger.update);
+
+  // ═══════════════════════════════════════════
+  //  THREE.JS HERO
+  // ═══════════════════════════════════════════
+  (function() {
+    const canvas   = document.getElementById('hero-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+    const scene  = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 100);
+    camera.position.z = 6;
+
+    function resize() {
+      renderer.setSize(innerWidth, innerHeight);
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Outer wireframe
+    const geoA = new THREE.IcosahedronGeometry(2.2, 1);
+    const matA = new THREE.MeshBasicMaterial({ color: 0xC9A84C, wireframe: true, transparent: true, opacity: 0.14 });
+    const meshA = new THREE.Mesh(geoA, matA);
+    meshA.position.set(2.6, 0.2, 0);
+    scene.add(meshA);
+
+    // Inner wireframe (counter-rotates)
+    const geoB = new THREE.IcosahedronGeometry(1.3, 1);
+    const matB = new THREE.MeshBasicMaterial({ color: 0xC9A84C, wireframe: true, transparent: true, opacity: 0.06 });
+    const meshB = new THREE.Mesh(geoB, matB);
+    meshA.add(meshB);
+
+    // Particles
+    const N = 900;
+    const pos = new Float32Array(N * 3);
+    for (let i = 0; i < N * 3; i++) pos[i] = (Math.random() - 0.5) * 22;
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const pMat = new THREE.PointsMaterial({ color: 0xC9A84C, size: 0.025, transparent: true, opacity: 0.28 });
+    const pts  = new THREE.Points(pGeo, pMat);
+    scene.add(pts);
+
+    let mx = 0, my = 0;
+    document.addEventListener('mousemove', e => {
+      mx = (e.clientX / innerWidth  - 0.5) * 2;
+      my = (e.clientY / innerHeight - 0.5) * 2;
+    });
+
+    let scrollPct = 0;
+    lenis.on('scroll', ({ scroll }) => { scrollPct = scroll / innerHeight; });
+
+    (function tick(t) {
+      requestAnimationFrame(tick);
+      const s = t * 0.001;
+      meshA.rotation.x = s * 0.13 + my * 0.08;
+      meshA.rotation.y = s * 0.18 + mx * 0.08;
+      meshB.rotation.x = -s * 0.1;
+      meshB.rotation.y = -s * 0.15;
+      meshA.position.y  = 0.2 - scrollPct * 2.8;
+      meshA.scale.setScalar(1 - scrollPct * 0.35);
+      matA.opacity = Math.max(0, 0.14 - scrollPct * 0.22);
+      matB.opacity = Math.max(0, 0.06 - scrollPct * 0.1);
+      pts.rotation.y = s * 0.025;
+      pts.rotation.x = s * 0.012;
+      renderer.render(scene, camera);
+    })(0);
+  })();
+
+  // ═══════════════════════════════════════════
+  //  CURSOR
+  // ═══════════════════════════════════════════
+  const dot  = document.getElementById('cur-dot');
+  const ring = document.getElementById('cur-ring');
+
+  if (dot && ring) {
+    document.addEventListener('mousemove', e => {
+      dot.style.left = e.clientX + 'px';
+      dot.style.top  = e.clientY + 'px';
+      gsap.to(ring, { left: e.clientX, top: e.clientY, duration: 0.38, ease: 'power2.out' });
+    });
+
+    document.querySelectorAll('a, .card-hero, .card-half, .stack-chip, .cap-item, #btt, .ra-q, .contact-cta-primary, .contact-cta-secondary').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        gsap.to(ring, { scale: 2.2, opacity: 0.5, duration: 0.25 });
+        gsap.to(dot,  { scale: 0,   duration: 0.2 });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(ring, { scale: 1, opacity: 1, duration: 0.25 });
+        gsap.to(dot,  { scale: 1, duration: 0.2 });
+      });
+    });
+  }
+
+  // ═══════════════════════════════════════════
+  //  BACK TO TOP
+  // ═══════════════════════════════════════════
+  const btt = document.getElementById('btt');
+  lenis.on('scroll', ({ scroll }) => {
+    btt.classList.toggle('visible', scroll > window.innerHeight * 0.4);
+  });
+  btt.addEventListener('click', () => lenis.scrollTo(0, { duration: 1.6, easing: t => 1 - Math.pow(1 - t, 4) }));
+
+  // ═══════════════════════════════════════════
+  //  CASE STUDY OVERLAY
+  // ═══════════════════════════════════════════
+  const backdrop = document.getElementById('ov-backdrop');
+  const ovClose  = document.getElementById('ov-close');
+  const ovItems  = document.querySelectorAll('.ov-content');
+
+  function openOverlay(idx) {
+    ovItems.forEach((el, i) => el.classList.toggle('active', i === idx));
+    backdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    lenis.stop();
+  }
+
+  function closeOverlay() {
+    backdrop.classList.remove('open');
+    document.body.style.overflow = '';
+    lenis.start();
+  }
+
+  document.querySelectorAll('[data-project]').forEach(card => {
+    card.addEventListener('click', () => openOverlay(+card.dataset.project));
+  });
+
+  ovClose.addEventListener('click', closeOverlay);
+  backdrop.addEventListener('click', e => { if (e.target === backdrop) closeOverlay(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOverlay(); });
+
+  // ═══════════════════════════════════════════
+  //  HORIZONTAL STRIP — drag scroll
+  // ═══════════════════════════════════════════
+  const strip = document.getElementById('strip-track');
+  let isDragging = false, startX = 0, scrollLeft = 0;
+
+  strip.addEventListener('mousedown', e => {
+    isDragging = true;
+    strip.classList.add('dragging');
+    startX     = e.pageX - strip.offsetLeft;
+    scrollLeft = strip.scrollLeft;
+  });
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    strip.classList.remove('dragging');
+  });
+  strip.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x    = e.pageX - strip.offsetLeft;
+    const walk = (x - startX) * 1.4;
+    strip.scrollLeft = scrollLeft - walk;
+  });
+
+  // ═══════════════════════════════════════════
+  //  RA TERMINAL
+  // ═══════════════════════════════════════════
+  const RA_DATA = [
+    {
+      q: 'What are you building?',
+      r: `The Highest platform — a connected ecosystem of autonomous AI organisations.\n\nHighest App is the entry point: a fitness product that layers a twelve-voice philosophical curriculum — Epictetus, Nietzsche, Marcus Aurelius, Sun Tzu — across a five-level progression system, using identity formation as a retention mechanic. Built solo on Claude API edge functions, Supabase, and React in six weeks.\n\nUnderneath it: Highest Trading — a 6-agent consensus engine making autonomous XAU/USD decisions in real time. Highest Agency — the Egyptian god AI workforce. Ra, Horus, Isis, Anubis, Thoth, Sekhmet — each with a domain, a memory, and a decision log. KDP Publishing — an AI royalties pipeline.\n\nEvery organisation compounds. Every system learns. The goal is passive income across five streams, each autonomous once built. We are in the construction phase. Everything is on schedule.`,
+    },
+    {
+      q: 'How does the trading system work?',
+      r: `Six agents. One consensus. Every fifteen minutes.\n\nKAITO reads market structure — prior highs, lows, H4 bias. RYUU analyses candlestick patterns from a full trading book library. HANA tracks macro: DXY direction and live news via Tavily. SHIN watches technical indicators — 20MA, 200MA, RSI, overextension. MIKA manages risk and discipline. YUKI identifies entries — COG at S/R, tail signals, second-bar confirmation.\n\nEvery cycle, each agent casts a vote: LONG, SHORT, or NEUTRAL with a confidence score. If 3+ agents reach 60%+ confidence — a trade fires through the OANDA bridge.\n\nAfter every close, six background Claude Haiku calls fire simultaneously. Each agent receives a two-sentence lesson: what signal was used, what to do differently. The lesson appends to that agent's learning file. Fed back into their prompt next cycle. The system compounds intelligence with every single trade.`,
+    },
+    {
+      q: 'What makes Alex different?',
+      r: `Three things rarely combined in one person.\n\nFirst: design at the craft level. Not UI polish — genuine design sensibility shaped by growing up in Italy, oil painting, Blender 3D, Procreate. He understands composition, depth, colour theory, and the physics of motion before he opens Figma. That instinct lives in every interface he builds.\n\nSecond: production-grade engineering, entirely self-taught. Supabase schemas with RLS, Claude API edge functions, Python multi-agent orchestration, Playwright automation, GSAP 3D animation. Ships working code solo. No team, no blockers.\n\nThird: three years managing luxury hotel floors at The Doyle Collection. Reading people under pressure. Designing experiences for human behaviour in real time. That background is not a detour from tech — it is the foundation of it.\n\nMost candidates have one of these. The combination of all three, with genuine AI-native depth on top, is what makes him worth a conversation.`,
+    },
+    {
+      q: 'What is the vision?',
+      r: `A Tuesday morning at 7am.\n\nGarden. Birds. Meditation before the gym. Time with family. Then helping others build the same. No obligations that weren't chosen. No systems stealing time. Complete sovereignty over every hour — by genuine choice, not circumstance.\n\nEvery product is tested against that compass. Highest App gives people the discipline to build themselves. Highest Trading generates autonomous P&L. The agency workforce does the cognitive labour. KDP creates passive royalties. YouTube documents the journey.\n\nEach stream funds the next. Each one autonomous once built. The architecture is not financial — it is temporal. The goal has never been a number in a bank account.\n\nIt is what you do on a Tuesday morning when none of it is owed to anyone else. We are building that morning. Session by session.`,
+    },
+  ];
+
+  let isTyping      = false;
+  let typingTimeout = null;
+
+  const qDisplay  = document.getElementById('ra-q-display');
+  const rDisplay  = document.getElementById('ra-r-display');
+  const raCursor  = document.getElementById('ra-cursor');
+  const toggle    = document.getElementById('prompt-toggle');
+  const qBtns     = document.querySelectorAll('.ra-q');
+  const prompts   = document.querySelectorAll('.prompt-block');
+
+  function showPrompt(idx) {
+    prompts.forEach((el, i) => {
+      el.style.display = i === idx ? 'block' : 'none';
+    });
+  }
+
+  function typeText(el, text, onDone) {
+    el.textContent = '';
+    raCursor.style.opacity = '1';
+    let i = 0;
+    isTyping = true;
+    function step() {
+      if (i >= text.length) {
+        raCursor.style.opacity = '0';
+        isTyping = false;
+        if (onDone) onDone();
+        return;
+      }
+      el.textContent += text[i++];
+      const delay = text[i - 1] === '\n' ? 70 : 14 + Math.random() * 9;
+      typingTimeout = setTimeout(step, delay);
+    }
+    step();
+  }
+
+  function loadQuestion(idx) {
+    if (isTyping) { clearTimeout(typingTimeout); isTyping = false; }
+    raCursor.style.opacity = '0';
+
+    // close prompt panel
+    prompts.forEach(el => { el.style.display = 'none'; });
+    toggle.classList.remove('open');
+
+    qBtns.forEach((b, i) => b.classList.toggle('active', i === idx));
+    qDisplay.textContent = RA_DATA[idx].q;
+    rDisplay.textContent = '';
+
+    setTimeout(() => {
+      typeText(rDisplay, RA_DATA[idx].r);
+      showPrompt(idx);         // pre-load correct prompt (hidden until toggle)
+      prompts[idx].style.display = 'none'; // keep hidden until user clicks
+    }, 280);
+  }
+
+  qBtns.forEach((btn, i) => btn.addEventListener('click', () => loadQuestion(i)));
+
+  toggle.addEventListener('click', () => {
+    const currentPrompt = document.getElementById('prompt-' + Array.from(qBtns).findIndex(b => b.classList.contains('active')));
+    if (!currentPrompt) return;
+    const isOpen = currentPrompt.style.display === 'block';
+    currentPrompt.style.display = isOpen ? 'none' : 'block';
+    toggle.classList.toggle('open', !isOpen);
+  });
+
+  loadQuestion(0);
+
+  // ═══════════════════════════════════════════
+  //  NAV — glass on scroll
+  // ═══════════════════════════════════════════
+  const navEl = document.getElementById('nav');
+  lenis.on('scroll', ({ scroll }) => {
+    navEl.classList.toggle('scrolled', scroll > 80);
+  });
+
+  // ═══════════════════════════════════════════
+  //  HERO ENTRANCE ANIMATION
+  // ═══════════════════════════════════════════
+  gsap.registerPlugin(ScrollTrigger);
+
+  const heroTl = gsap.timeline({ delay: 0.15 });
+  heroTl
+    .to('.avail',                         { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' })
+    .to('.hero-badge',                    { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.2')
+    .to('.hero-line-inner',               { opacity: 1, yPercent: 0, duration: 0.9, ease: 'power4.out', stagger: 0.12 }, '-=0.35')
+    .to('.hero-sub',                      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+    .to('.hero-cta',                      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.45')
+    .to('#scroll-hint',                   { opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.2');
+
+  // ═══════════════════════════════════════════
+  //  SCROLL ANIMATIONS
+  // ═══════════════════════════════════════════
+
+  // Hero photo parallax
+  gsap.to('#hero-img', {
+    yPercent: 22, ease: 'none',
+    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.2 },
+  });
+
+  // Section reveals
+  gsap.utils.toArray('.r').forEach(el => {
+    gsap.fromTo(el,
+      { opacity: 0, y: 52 },
+      {
+        opacity: 1, y: 0, duration: 1.1, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 87%', toggleActions: 'play none none none' },
+      }
+    );
+  });
+
+  // Card image inner parallax — the 3D window effect
+  document.querySelectorAll('[data-parallax]').forEach(layer => {
+    const card   = layer.closest('.card-hero, .card-half');
+    const factor = parseFloat(layer.dataset.parallax) || 0.35;
+    gsap.fromTo(layer,
+      { yPercent: -14 * factor * 3 },
+      {
+        yPercent: 14 * factor * 3, ease: 'none',
+        scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: true },
+      }
+    );
+  });
+
+  // Phone mockup 3D tilt on scroll
+  gsap.to('#card-phone-1', {
+    rotateY: -20, rotateX: 7, scale: 1.07, ease: 'none',
+    scrollTrigger: { trigger: '.card-hero', start: 'top bottom', end: 'bottom top', scrub: true },
+  });
+
+  // About photo parallax
+  gsap.to('#about-img', {
+    yPercent: 12, ease: 'none',
+    scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 1 },
+  });
+
+  // Contact entrance
+  gsap.from('.contact-big', {
+    yPercent: 22, opacity: 0, duration: 1.3, ease: 'power4.out',
+    scrollTrigger: { trigger: '#contact', start: 'top 80%' },
+  });
+
+  </script>
+</body>
+</html>

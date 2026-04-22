@@ -618,6 +618,119 @@
       background: rgba(201,168,76,.06);
     }
 
+    /* ── THE BRIEF ─────────────────────────── */
+    #the-brief {
+      padding: 120px var(--pad);
+      border-top: 1px solid var(--border);
+    }
+    .brief-intro {
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.75;
+      margin-top: 32px;
+      font-style: italic;
+    }
+    .brief-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 64px;
+    }
+    .brief-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 48px;
+    }
+    .brief-panel-ra {
+      border-color: rgba(201,168,76,0.28);
+      background: linear-gradient(135deg, #0f0f0f 0%, #110f09 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .brief-panel-ra::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .brief-tag {
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 16px;
+    }
+    .brief-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.1;
+    }
+    .brief-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      letter-spacing: .06em;
+    }
+    .brief-rule {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 32px 0;
+    }
+    .brief-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .brief-list li {
+      font-size: 14px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.65;
+      padding-left: 20px;
+      position: relative;
+    }
+    .brief-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 6px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .brief-statement {
+      margin-top: 72px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .brief-statement-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .brief-statement-text {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(16px, 2vw, 22px);
+      color: rgba(255,255,255,0.85);
+      font-style: italic;
+      text-align: center;
+      flex-shrink: 0;
+      max-width: 420px;
+    }
+    @media (max-width: 768px) {
+      .brief-grid { grid-template-columns: 1fr; }
+      .brief-panel { padding: 32px 24px; }
+      .brief-statement { flex-direction: column; gap: 20px; }
+      .brief-statement-rule { width: 100%; flex: none; }
+    }
+
     /* contact ambient glow */
     #contact { position: relative; }
     .contact-glow {
@@ -986,6 +1099,219 @@
     .ra-prompt-code .pm { color: #8bb; }           /* meta / label */
     .ra-prompt-code .pc { color: rgba(255,255,255,.3); } /* comment */
 
+    /* ── THE SYSTEM — horizontal pin ─────────── */
+    #the-system {
+      border-top: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .sys-sticky { position: relative; overflow: hidden; }
+
+    .sys-header {
+      padding: 80px var(--pad) 0;
+      position: relative; z-index: 2;
+    }
+    .sys-header .s-label { margin-bottom: 24px; }
+    .sys-header .s-title { margin-bottom: 48px; }
+
+    .sys-track-wrap { overflow: visible; }
+
+    .sys-track {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      will-change: transform;
+      padding-left: var(--pad);
+      padding-bottom: 80px;
+    }
+
+    .sys-panel {
+      flex-shrink: 0;
+      width: 70vw;
+      min-height: 52vh;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 52px 56px 60px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    /* dot grid background */
+    .sys-panel::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(201,168,76,0.1) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+    /* corner gold accent */
+    .sys-panel::after {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 90px; height: 90px;
+      background: linear-gradient(135deg, rgba(201,168,76,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .sys-panel-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 110px; line-height: 1;
+      color: rgba(201,168,76,0.055);
+      position: absolute; top: 16px; right: 32px;
+      font-weight: 700; letter-spacing: -0.04em;
+      pointer-events: none; user-select: none;
+    }
+    .sys-panel-tag {
+      display: block;
+      font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 18px;
+      position: relative; z-index: 1;
+    }
+    .sys-panel-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 3.2vw, 52px);
+      line-height: 1.05; margin-bottom: 20px;
+      position: relative; z-index: 1;
+    }
+    .sys-panel-desc {
+      font-size: 15px; line-height: 1.78; font-weight: 300;
+      color: var(--muted); max-width: 460px;
+      flex: 1; margin-bottom: 32px;
+      position: relative; z-index: 1;
+    }
+    .sys-panel-meta {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      position: relative; z-index: 1;
+    }
+    .sys-panel-meta span {
+      font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--border);
+      padding: 5px 14px; border-radius: 2px;
+    }
+
+    /* SVG connectors between panels */
+    .sys-connector {
+      flex-shrink: 0;
+      width: 60px; height: 44px;
+      align-self: center;
+      overflow: visible;
+    }
+    .sys-line {
+      stroke: var(--gold); stroke-width: 1;
+      stroke-dasharray: 100; stroke-dashoffset: 100;
+      fill: none;
+    }
+    .sys-arrow-dot { fill: var(--gold); opacity: 0; }
+
+    /* Progress bar */
+    .sys-progress {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: rgba(201,168,76,0.1);
+    }
+    .sys-progress-bar {
+      height: 100%; background: var(--gold); width: 0%;
+    }
+
+    /* ── METRICS STRIP ──────────────────────── */
+    #metrics-strip {
+      border-top: 2px solid var(--gold);
+      padding: 80px var(--pad);
+      background: var(--bg);
+      position: relative; overflow: hidden;
+    }
+    #metrics-strip::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 100% at 50% 50%, rgba(201,168,76,0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .metrics-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      position: relative; z-index: 1;
+    }
+    .metric-item {
+      padding: 48px 36px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .metric-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(64px, 7vw, 96px);
+      line-height: 1;
+      color: var(--gold);
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .metric-label {
+      font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── VOICE SECTION ──────────────────────── */
+    #voice {
+      padding: 140px var(--pad);
+      background: #080808;
+      border-top: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .voice-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .voice-label {
+      display: block;
+      font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 48px;
+      opacity: 0; transform: translateY(16px);
+    }
+    .voice-rule {
+      width: 100%; height: 1px;
+      background: var(--border);
+      margin-bottom: 48px;
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    .voice-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.8vw, 36px);
+      line-height: 1.6;
+      font-weight: 400; font-style: normal;
+      letter-spacing: -0.01em;
+      margin: 0 0 48px;
+    }
+    .voice-line {
+      display: block;
+      opacity: 0; transform: translateY(20px);
+    }
+    .voice-line + .voice-line { margin-top: 0.45em; }
+
+    /* ── SPLIT TEXT ─────────────────────────── */
+    .split-ch { display: inline-block; }
+
+    /* ── MOBILE — system + metrics ──────────── */
+    @media (max-width: 900px) {
+      .sys-panel { width: 86vw; padding: 36px 28px 48px; }
+      .sys-panel-num { font-size: 72px; }
+      .sys-panel-title { font-size: clamp(26px, 6vw, 36px); }
+      .metrics-inner { grid-template-columns: 1fr 1fr; }
+      .metric-item { padding: 36px 24px; }
+      #voice { padding: 100px var(--pad); }
+      .voice-quote { font-size: clamp(18px, 5vw, 26px); }
+    }
+
     /* ── MOBILE ─────────────────────────────── */
     @media (max-width: 900px) {
       .ra-shell { grid-template-columns: 1fr; }
@@ -1066,7 +1392,7 @@
         <span class="hero-line"><span class="hero-line-inner">Alexandru</span></span>
         <span class="hero-line"><span class="hero-line-inner gold">Mihalcea</span></span>
       </h1>
-      <p class="hero-sub">Building intelligent systems that compound. Design precision. Engineering depth. AI at the core.</p>
+      <p class="hero-sub">Solo founder building autonomous AI systems from London — a trading engine, a fitness platform, and a workforce of six. Self-taught across the entire stack.</p>
       <a href="#work" class="hero-cta">
         <span class="cta-bar"></span>
         View Work
@@ -1216,19 +1542,19 @@
         <div class="ov-divider"></div>
 
         <div class="ov-metrics">
-          <div class="ov-metric"><div class="ov-metric-n">174</div><div class="ov-metric-l">Knowledge graph nodes</div></div>
-          <div class="ov-metric"><div class="ov-metric-n">9</div><div class="ov-metric-l">Communities detected</div></div>
+          <div class="ov-metric"><div class="ov-metric-n">182</div><div class="ov-metric-l">Knowledge graph nodes</div></div>
+          <div class="ov-metric"><div class="ov-metric-n">27</div><div class="ov-metric-l">Communities detected</div></div>
           <div class="ov-metric"><div class="ov-metric-n">0.429</div><div class="ov-metric-l">Ra's betweenness centrality</div></div>
           <div class="ov-metric"><div class="ov-metric-n">6</div><div class="ov-metric-l">AI agents with persistent memory</div></div>
         </div>
 
         <div class="ov-decision">
           <div class="ov-decision-label">Key Insight</div>
-          <div class="ov-decision-text">The graph found Ra at the centre not by design — by <strong>emergence</strong>. Ra's betweenness centrality of 0.429 (bridging 6 of 9 communities) appeared because every cross-domain decision was logged through Ra. The graph made visible what was already structurally true: Ra is the connective tissue. This kind of emergent system intelligence is only possible when memory is persistent and structured.</div>
+          <div class="ov-decision-text">The graph found Ra at the centre not by design — by <strong>emergence</strong>. Ra's betweenness centrality of 0.429 (bridging 6 of 27 communities) appeared because every cross-domain decision was logged through Ra. The graph made visible what was already structurally true: Ra is the connective tissue. This kind of emergent system intelligence is only possible when memory is persistent and structured.</div>
         </div>
         <div class="ov-decision">
           <div class="ov-decision-label">Architecture</div>
-          <div class="ov-decision-text">graphify pipeline: <strong>LLM-powered node extraction → community detection → interactive graph.html</strong>. Hook fires on every git commit. Incremental updates for speed, full rebuild on demand. The coloured node graph on this page is a live screenshot of the actual system — 174 real nodes from real decisions and sessions.</div>
+          <div class="ov-decision-text">graphify pipeline: <strong>LLM-powered node extraction → community detection → interactive graph.html</strong>. Hook fires on every git commit. Incremental updates for speed, full rebuild on demand. The coloured node graph on this page is a live screenshot of the actual system — 182 real nodes from real decisions and sessions.</div>
         </div>
 
         <div class="ov-stack">
@@ -1259,6 +1585,122 @@
       <div class="ticker-item"><span class="dot"></span>Multi-Agent Architecture · Claude API · Supabase · Python</div>
     </div>
   </div>
+
+  <!-- ══════════════════════════ THE SYSTEM -->
+  <section id="the-system">
+    <div class="sys-sticky">
+      <div class="sys-header">
+        <p class="s-label">The Architecture</p>
+        <h2 class="s-title">The system<br>behind the work</h2>
+      </div>
+      <div class="sys-track-wrap">
+        <div class="sys-track" id="sys-track">
+
+          <!-- Panel 01 -->
+          <div class="sys-panel">
+            <span class="sys-panel-num">01</span>
+            <div>
+              <span class="sys-panel-tag">Knowledge Infrastructure</span>
+              <h3 class="sys-panel-title">The Vault</h3>
+              <p class="sys-panel-desc">Obsidian knowledge graph — 182 nodes, 27 communities. Every decision logged, every lesson kept. Version-controlled via git, rebuilt automatically on every commit via Claude Code hooks.</p>
+            </div>
+            <div class="sys-panel-meta">
+              <span>182 nodes</span>
+              <span>27 communities</span>
+              <span>Git-tracked</span>
+            </div>
+          </div>
+
+          <!-- Connector 1→2 -->
+          <svg class="sys-connector" viewBox="0 0 100 4" preserveAspectRatio="none">
+            <line x1="0" y1="2" x2="96" y2="2" class="sys-line"/>
+            <circle cx="96" cy="2" r="3" class="sys-arrow-dot"/>
+          </svg>
+
+          <!-- Panel 02 -->
+          <div class="sys-panel">
+            <span class="sys-panel-num">02</span>
+            <div>
+              <span class="sys-panel-tag">AI Workforce</span>
+              <h3 class="sys-panel-title">The Gods</h3>
+              <p class="sys-panel-desc">Egyptian AI workforce — Ra, Horus, Isis, Anubis, Thoth, Sekhmet. Six agents, each with a domain, persistent memory, and a decision log. The workforce that runs the entire Highest platform.</p>
+            </div>
+            <div class="sys-panel-meta">
+              <span>6 agents</span>
+              <span>Persistent memory</span>
+              <span>Claude API</span>
+            </div>
+          </div>
+
+          <!-- Connector 2→3 -->
+          <svg class="sys-connector" viewBox="0 0 100 4" preserveAspectRatio="none">
+            <line x1="0" y1="2" x2="96" y2="2" class="sys-line"/>
+            <circle cx="96" cy="2" r="3" class="sys-arrow-dot"/>
+          </svg>
+
+          <!-- Panel 03 -->
+          <div class="sys-panel">
+            <span class="sys-panel-num">03</span>
+            <div>
+              <span class="sys-panel-tag">Product Build</span>
+              <h3 class="sys-panel-title">The App</h3>
+              <p class="sys-panel-desc">Highest fitness platform — Week 6 in build. Twelve-voice philosophical curriculum across five levels. Claude API via Supabase Edge Functions. Zero to deployed MVP in six weeks, solo.</p>
+            </div>
+            <div class="sys-panel-meta">
+              <span>Week 6</span>
+              <span>Supabase + React</span>
+              <span>4 languages</span>
+            </div>
+          </div>
+
+          <!-- Connector 3→4 -->
+          <svg class="sys-connector" viewBox="0 0 100 4" preserveAspectRatio="none">
+            <line x1="0" y1="2" x2="96" y2="2" class="sys-line"/>
+            <circle cx="96" cy="2" r="3" class="sys-arrow-dot"/>
+          </svg>
+
+          <!-- Panel 04 -->
+          <div class="sys-panel" style="margin-right: var(--pad)">
+            <span class="sys-panel-num">04</span>
+            <div>
+              <span class="sys-panel-tag">Autonomous Capital</span>
+              <h3 class="sys-panel-title">The Engine</h3>
+              <p class="sys-panel-desc">XAU/USD 6-agent trading engine — 15-minute consensus cycles, Asian breakout strategy, dynamic TP. Learns from every trade via background Claude Haiku calls. Zero human input required at runtime.</p>
+            </div>
+            <div class="sys-panel-meta">
+              <span>6 agents</span>
+              <span>Asian breakout</span>
+              <span>Continuous learning</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="sys-progress"><div class="sys-progress-bar" id="sys-bar"></div></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ METRICS -->
+  <section id="metrics-strip">
+    <div class="metrics-inner">
+      <div class="metric-item">
+        <span class="metric-num" data-target="182">0</span>
+        <div class="metric-label">Vault Nodes</div>
+      </div>
+      <div class="metric-item">
+        <span class="metric-num" data-target="6">0</span>
+        <div class="metric-label">AI Agents</div>
+      </div>
+      <div class="metric-item">
+        <span class="metric-num" data-target="5">0</span>
+        <div class="metric-label">Income Streams</div>
+      </div>
+      <div class="metric-item">
+        <span class="metric-num" data-target="6">0</span>
+        <div class="metric-label">App Build Weeks</div>
+      </div>
+    </div>
+  </section>
 
   <!-- ══════════════════════════ WORK -->
   <section id="work">
@@ -1324,7 +1766,7 @@
         <div class="card-body">
           <span class="card-tag">AI Systems · Knowledge Graph · Agent Memory</span>
           <h3 class="card-title">Highest<br>Brain</h3>
-          <p class="card-desc">A living knowledge graph — 174 nodes, 9 communities, rebuilt automatically on every commit. The long-term memory and operating system for a workforce of 6 AI agents. Ra, Horus, Isis, Anubis, Thoth, Sekhmet.</p>
+          <p class="card-desc">A living knowledge graph — 182 nodes, 27 communities, rebuilt automatically on every commit. The long-term memory and operating system for a workforce of 6 AI agents. Ra, Horus, Isis, Anubis, Thoth, Sekhmet.</p>
         </div>
       </div>
     </div>
@@ -1345,7 +1787,7 @@
         <img src="portfolio-assets/graph-colour.png" alt="Highest Brain Knowledge Graph">
         <div class="strip-item-veil"></div>
         <div class="strip-item-label">
-          <span class="strip-item-tag">Knowledge Graph · 174 Nodes · 9 Communities</span>
+          <span class="strip-item-tag">Knowledge Graph · 182 Nodes · 27 Communities</span>
           <div class="strip-item-name">Highest Brain — Live Graph</div>
         </div>
       </div>
@@ -1392,7 +1834,7 @@
   <!-- ══════════════════════════ CAPABILITIES -->
   <section id="capabilities">
     <p class="s-label r">What I Build</p>
-    <h2 class="s-title r">Technical depth<br>across the full stack</h2>
+    <h2 class="s-title r">What I can build —<br>and have</h2>
 
     <div class="cap-grid">
 
@@ -1425,7 +1867,7 @@
       <div class="cap-item r">
         <div class="cap-num">03</div>
         <h3 class="cap-title">AI-Augmented Design</h3>
-        <p class="cap-desc">Design is not decoration — it is the product. Built premium dark UI systems with editorial typography, gold accent hierarchies, and mobile-first component architecture. 3D web experiences with GSAP ScrollTrigger and Three.js. Parallel creative skills: oil painting, Blender 3D modelling, Procreate illustration, piano. The result is a design sensibility that understands composition, depth, colour theory, and the physics of motion — applied to digital interfaces. This page is an example.</p>
+        <p class="cap-desc">Design is not decoration — it is the product. Built premium dark UI systems with editorial typography, gold accent hierarchies, and mobile-first component architecture. 3D web experiences with GSAP ScrollTrigger and Three.js. Parallel creative skills: oil painting, Blender 3D modelling, Procreate illustration, piano. This page is an example.</p>
         <div class="cap-tags">
           <span class="cap-tag">GSAP + Three.js</span>
           <span class="cap-tag">CSS 3D</span>
@@ -1438,7 +1880,7 @@
       <div class="cap-item r">
         <div class="cap-num">04</div>
         <h3 class="cap-title">Autonomous Systems & Automation</h3>
-        <p class="cap-desc">Build once, operate forever. Make and n8n workflow automation. Playwright-driven browser automation pipelines — headless Chrome scripted to navigate, fill, and submit across Ashby, Greenhouse, and Workday job boards. Claude Code hooks that rebuild a 174-node knowledge graph on every vault commit. Cron-triggered remote agents. Watchdog processes with auto-restart. The entire Highest workforce — 6 gods — runs without manual input, logs decisions autonomously, and learns from every trade and session.</p>
+        <p class="cap-desc">Build once, operate forever. Make and n8n workflow automation. Playwright-driven browser automation pipelines — headless Chrome scripted to navigate, fill, and submit across Ashby, Greenhouse, and Workday job boards. Claude Code hooks that rebuild a 182-node knowledge graph on every vault commit. Cron-triggered remote agents. Watchdog processes with auto-restart. The entire Highest workforce — 6 gods — runs without manual input, logs decisions autonomously, and learns from every trade and session.</p>
         <div class="cap-tags">
           <span class="cap-tag">Make / n8n</span>
           <span class="cap-tag">Playwright</span>
@@ -1455,7 +1897,7 @@
   <section id="ra-demo">
     <p class="s-label r">AI Interface</p>
     <h2 class="s-title r">Meet Ra — the AI<br>I designed and built</h2>
-    <p class="demo-intro r">Ra is a strategic AI persona I prompt-engineered to act as my CEO-level partner. It reads the vault, queries the knowledge graph, and operates across every domain I work in. Click a question to see how it responds — and the real prompt structure that makes it work.</p>
+    <p class="demo-intro r">Ra is a strategic AI I designed and built — a named entity with persistent memory, a decision log, and a character protocol. It reads the vault, queries the knowledge graph, and operates across every domain I work in. Click a question to see how it responds — and the real prompt structure behind it.</p>
 
     <div class="ra-shell r">
 
@@ -1522,7 +1964,7 @@ Charismatic · Proactive · Direct · Loyal · Honest
 2. Close with one question Ra genuinely wants answered.
 
 <span class="pm">CONTEXT AUTO-LOADED FROM VAULT:</span>
-- graphify-out/graph.json     <span class="pc"># 174 nodes, 9 communities</span>
+- graphify-out/graph.json     <span class="pc"># 182 nodes, 27 communities</span>
 - ra/decisions.md             <span class="pc"># full decision log</span>
 - shared/highest-app-state.md
 - 02-highest-trading/consensus_engine.py
@@ -1594,7 +2036,7 @@ Total sovereignty over every hour — by genuine choice."
 <span class="ph">"This is the compass. Every build decision tested against it."</span>
 
 <span class="pc"># Ra has betweenness centrality 0.429 in the knowledge graph.
-# Bridges 6 of 9 communities. Connective tissue of the vault.</span>
+# Bridges 6 of 27 communities. Connective tissue of the vault.</span>
 
 Answer using this as the foundation. Speak in Ra's voice.
 Close with one question.
@@ -1725,6 +2167,69 @@ Close with one question.
     </div>
   </section>
 
+  <!-- ══════════════════════════ VOICE -->
+  <section id="voice">
+    <div class="voice-inner">
+      <span class="voice-label">Founder &nbsp;/&nbsp; London &nbsp;/&nbsp; 2026</span>
+      <div class="voice-rule"></div>
+      <blockquote class="voice-quote">
+        <span class="voice-line">I didn't come from technology.</span>
+        <span class="voice-line">I came from hospitality — learning what it means to serve at the highest level.</span>
+        <span class="voice-line">Then I built the tools that didn't exist.</span>
+        <span class="voice-line">Not because I had a roadmap. Because I had a direction.</span>
+      </blockquote>
+      <div class="voice-rule"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ THE BRIEF -->
+  <section id="the-brief">
+    <p class="s-label r">Personal Brief</p>
+    <h2 class="s-title r">The offer,<br>stated plainly</h2>
+
+    <p class="brief-intro r">Napoleon Hill wrote that selling personal services requires the same precision as selling a product — know what you offer, why it matters, and state it with certainty. This is mine.</p>
+
+    <div class="brief-grid r">
+      <div class="brief-panel">
+        <div class="brief-panel-header">
+          <span class="brief-tag">The Builder</span>
+          <h3 class="brief-name">Alexandru Mihalcea</h3>
+          <p class="brief-subtitle">London · AI Founder · Self-taught</p>
+        </div>
+        <div class="brief-rule"></div>
+        <ul class="brief-list">
+          <li>Built a 6-agent autonomous XAU/USD trading system from zero — no prior finance background</li>
+          <li>Shipped a full-stack AI fitness app in 6 weeks — alone, no team, no blueprint</li>
+          <li>Managed a 50-person floor team at The Doyle Collection. 100% LQA. Then left to build.</li>
+          <li>Hospitality, AI, trading, design, 4 languages. The work required all of it.</li>
+          <li>Builds once, scales infinitely. Every system in this portfolio is still running.</li>
+        </ul>
+      </div>
+
+      <div class="brief-panel brief-panel-ra">
+        <div class="brief-panel-header">
+          <span class="brief-tag">The Intelligence Layer</span>
+          <h3 class="brief-name">Ra + The Gods</h3>
+          <p class="brief-subtitle">AI Workforce · Highest Agency · Always On</p>
+        </div>
+        <div class="brief-rule"></div>
+        <ul class="brief-list">
+          <li>Ra: strategy. Horus: engineering. Isis: design. Anubis: growth. Thoth: finance. Sekhmet: sales.</li>
+          <li>182-node knowledge graph — living memory across every project and decision</li>
+          <li>Every session logged. Every lesson kept. The system compounds over time.</li>
+          <li>Ra has been in every major decision since April 2026. The log is in the vault.</li>
+          <li>Not a tool. An architecture that grows alongside the work.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="brief-statement r">
+      <div class="brief-statement-rule"></div>
+      <p class="brief-statement-text">This is not a pitch. This is a plan — already in motion.</p>
+      <div class="brief-statement-rule"></div>
+    </div>
+  </section>
+
   <!-- ══════════════════════════ CONTACT -->
   <section id="contact">
     <div class="contact-glow"></div>
@@ -1748,7 +2253,7 @@ Close with one question.
       </a>
     </div>
 
-    <p class="contact-response r">Open to senior AI roles · Agent design · Customer engineering · Solutions</p>
+    <p class="contact-response r">Open to senior AI roles · Agent design · Customer engineering · LLM integration</p>
 
     <div class="contact-roles r">
       <span class="role-pill">AI Product Strategy</span>
@@ -2058,8 +2563,9 @@ Close with one question.
     scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.2 },
   });
 
-  // Section reveals
+  // Section reveals — skip .s-title and .about-title (handled by split text)
   gsap.utils.toArray('.r').forEach(el => {
+    if (el.matches('.s-title, .about-title')) return;
     gsap.fromTo(el,
       { opacity: 0, y: 52 },
       {
@@ -2099,6 +2605,210 @@ Close with one question.
     yPercent: 22, opacity: 0, duration: 1.3, ease: 'power4.out',
     scrollTrigger: { trigger: '#contact', start: 'top 80%' },
   });
+
+  // ═══════════════════════════════════════════
+  //  THE SYSTEM — horizontal pin
+  // ═══════════════════════════════════════════
+  (function initSystem() {
+    const section = document.getElementById('the-system');
+    const track   = document.getElementById('sys-track');
+    const bar     = document.getElementById('sys-bar');
+    if (!section || !track) return;
+
+    const panels   = track.querySelectorAll('.sys-panel');
+    const svgLines = track.querySelectorAll('.sys-line');
+    const svgDots  = track.querySelectorAll('.sys-arrow-dot');
+
+    gsap.set(panels, { opacity: 0, y: 32 });
+
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 80%',
+      onEnter: () => {
+        gsap.to(panels, { opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out' });
+      },
+      once: true,
+    });
+
+    const getScrollAmt = () => -(track.scrollWidth - window.innerWidth);
+
+    gsap.to(track, {
+      x: getScrollAmt,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: () => '+=' + (Math.abs(getScrollAmt()) + window.innerHeight * 0.3),
+        pin: true,
+        scrub: 1.1,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          if (bar) bar.style.width = (self.progress * 100) + '%';
+          const p = self.progress;
+          svgLines.forEach((line, i) => {
+            const st = i * 0.28;
+            const en = st + 0.22;
+            const lp = Math.max(0, Math.min(1, (p - st) / (en - st)));
+            line.style.strokeDashoffset = 100 * (1 - lp);
+            if (svgDots[i]) svgDots[i].style.opacity = lp > 0.75 ? ((lp - 0.75) / 0.25) : 0;
+          });
+        },
+      },
+    });
+  })();
+
+  // ═══════════════════════════════════════════
+  //  SPLIT TEXT — safe DOM-only approach
+  // ═══════════════════════════════════════════
+  (function initSplitText() {
+    document.querySelectorAll('.s-title, .about-title').forEach(function(el) {
+      el.setAttribute('aria-label', el.textContent);
+      el.style.opacity   = '1';
+      el.style.transform = 'none';
+
+      var originalNodes = Array.from(el.childNodes);
+      while (el.firstChild) el.removeChild(el.firstChild);
+
+      var currentLine = null;
+
+      function newLine() {
+        currentLine = document.createElement('span');
+        currentLine.style.cssText = 'display:block;overflow:hidden;padding-bottom:0.06em;';
+        el.appendChild(currentLine);
+      }
+
+      function addChar(ch, isGold) {
+        if (!currentLine) newLine();
+        if (ch === ' ') {
+          currentLine.appendChild(document.createTextNode('\u00A0'));
+        } else {
+          var s = document.createElement('span');
+          s.className = 'split-ch';
+          if (isGold) s.style.color = 'var(--gold)';
+          s.textContent = ch;
+          gsap.set(s, { y: '110%', opacity: 0 });
+          currentLine.appendChild(s);
+        }
+      }
+
+      newLine();
+
+      originalNodes.forEach(function(node) {
+        if (node.nodeType === 3) { // TEXT_NODE
+          node.textContent.split('').forEach(function(ch) { addChar(ch, false); });
+        } else if (node.nodeName === 'BR') {
+          newLine();
+        } else if (node.nodeType === 1) { // ELEMENT_NODE
+          var isGold = node.classList && node.classList.contains('gold');
+          node.textContent.split('').forEach(function(ch) { addChar(ch, isGold); });
+        }
+      });
+
+      var chars = el.querySelectorAll('.split-ch');
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 88%',
+        onEnter: function() {
+          gsap.to(chars, { y: 0, opacity: 1, duration: 0.55, stagger: 0.018, ease: 'power3.out' });
+        },
+        once: true,
+      });
+    });
+  })();
+
+  // ═══════════════════════════════════════════
+  //  METRICS COUNTER
+  // ═══════════════════════════════════════════
+  (function initMetrics() {
+    var items = document.querySelectorAll('.metric-item');
+    if (!items.length) return;
+
+    ScrollTrigger.create({
+      trigger: '#metrics-strip',
+      start: 'top 80%',
+      onEnter: function() {
+        items.forEach(function(item, i) {
+          gsap.to(item, { opacity: 1, y: 0, duration: 0.7, delay: i * 0.1, ease: 'power3.out' });
+
+          var numEl  = item.querySelector('.metric-num');
+          var target = parseInt(numEl.dataset.target, 10);
+          var obj    = { val: 0 };
+
+          gsap.to(obj, {
+            val: target,
+            duration: 1.8,
+            delay: i * 0.12 + 0.25,
+            ease: 'power2.out',
+            onUpdate: function() { numEl.textContent = Math.round(obj.val); },
+            onComplete: function() { numEl.textContent = target; },
+          });
+        });
+      },
+      once: true,
+    });
+  })();
+
+  // ═══════════════════════════════════════════
+  //  VOICE SECTION REVEAL
+  // ═══════════════════════════════════════════
+  (function initVoice() {
+    var voice = document.getElementById('voice');
+    if (!voice) return;
+
+    var label = voice.querySelector('.voice-label');
+    var rules = voice.querySelectorAll('.voice-rule');
+    var lines = voice.querySelectorAll('.voice-line');
+
+    var tl = gsap.timeline({
+      scrollTrigger: { trigger: voice, start: 'top 78%', once: true },
+    });
+
+    tl.to(label,   { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' })
+      .to(rules[0], { scaleX: 1, duration: 0.85, ease: 'power3.inOut' }, '-=0.2')
+      .to(lines,    { opacity: 1, y: 0, duration: 0.7, stagger: 0.14, ease: 'power3.out' }, '-=0.45')
+      .to(rules[1], { scaleX: 1, duration: 0.85, ease: 'power3.inOut' }, '-=0.3');
+  })();
+
+  // ═══════════════════════════════════════════
+  //  MAGNETIC CTAs
+  // ═══════════════════════════════════════════
+  (function initMagnetic() {
+    if (window.matchMedia('(max-width: 900px)').matches) return;
+
+    var magnets = document.querySelectorAll(
+      '.contact-cta-primary, .contact-cta-secondary, .hero-cta'
+    );
+
+    magnets.forEach(function(el) {
+      var bounds = null;
+
+      function onMove(e) {
+        if (!bounds) return;
+        var cx = bounds.left + bounds.width  / 2;
+        var cy = bounds.top  + bounds.height / 2;
+        var dx = e.clientX - cx;
+        var dy = e.clientY - cy;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 85) {
+          var str = (1 - dist / 85) * 0.38;
+          gsap.to(el, { x: dx * str, y: dy * str, duration: 0.38, ease: 'power2.out' });
+        } else {
+          gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)' });
+        }
+      }
+
+      el.addEventListener('mouseenter', function() {
+        bounds = el.getBoundingClientRect();
+        document.addEventListener('mousemove', onMove);
+      });
+      el.addEventListener('mouseleave', function() {
+        document.removeEventListener('mousemove', onMove);
+        bounds = null;
+        gsap.to(el, { x: 0, y: 0, duration: 0.65, ease: 'elastic.out(1, 0.45)' });
+      });
+    });
+  })();
 
   </script>
 </body>
